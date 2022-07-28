@@ -26,18 +26,20 @@ async function bezier(t)
     let red = {"r": 255, "g": 0, "b": 0};
 
     // les points
-    let p_1 = {"x": 5, "y": 5};
-    let p_2 = {"x": 5, "y": N - 15};
-    let p_3 = {"x": N - 15, "y": N - 15};
-    drawPixel(p_1, green, 10);
-    drawPixel(p_2, green, 10);
-    drawPixel(p_3, green, 10);
+    let a = {"x": 5, "y": 5};
+    let b = {"x": 5, "y": N - 15};
+    let c = {"x": N - 15, "y": N - 15};
+    drawPixel(a, green, 10);
+    drawPixel(b, green, 10);
+    drawPixel(c, green, 10);
 
-    // formule de bezier
-    let b_x = p_1.x * (1 - t)**3 + 3 * p_2.x * t * (1 - t)**2 + 3 * p_3.x * t**2 * (1 - t) + p_3.x * t**3;
-    let b_y = p_1.y * (1 - t)**3 + 3 * p_2.y * t * (1 - t)**2 + 3 * p_3.y * t**2 * (1 - t) + p_3.y * t**3;
+    /* formule de bezier degrée 2
+        B(t) = A*(1 - t)**2 + 2*B*t*(1 - t) + C*t**2
+    */
+    let x = a.x*(1 - t)**2 + 2*b.x*t*(1 - t) + c.x*t**2
+    let y = a.y*(1 - t)**2 + 2*b.y*t*(1 - t) + c.y*t**2
 
-    drawPixel({"x": b_x, "y": b_y}, red, 10);
+    drawPixel({"x": x, "y": y}, red, 10);
 
 }
 
