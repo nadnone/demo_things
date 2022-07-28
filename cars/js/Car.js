@@ -4,16 +4,17 @@ export default class Car
 {
     constructor()
     {
-        this.pos = {"x": 10, "y": 10};
+        this.pos = {"x": 0, "y": 0};
         this.size = {"w": 60, "h": 120};
         this.center = {"x": this.size.w/2, "y": this.size.h/2}
         this.v = {"x": 0, "y": 0};
         this.friction_force = 0.5;
-        this.wheel = 0;
-        this.speed = 15;
+        this.wheel = -Math.PI/2;
+        this.speed = 15 / 1000000;
 
+        // Car texture from https://freesvg.org/red-car-vector-art
         this.img = document.createElement("img");
-        this.img.src = "./assets/car.png";
+        this.img.src = "./assets/car.svg";
     }
 
     draw(ctx)
@@ -46,12 +47,12 @@ export default class Car
 
         if (input.isKeyDown("ArrowRight"))
         {
-            wheel = -0.1;
+            wheel = -0.05;
             this.v.x += 1;
         }
         else if(input.isKeyDown("ArrowLeft"))
         {
-            wheel = 0.1;
+            wheel = 0.05;
             this.v.x -= 1;
         }
        
@@ -88,8 +89,8 @@ export default class Car
         }
 
         // Positions 2D
-        this.pos.x += Math.sin(this.wheel) * gas;
-        this.pos.y += Math.cos(this.wheel) * gas;
+        this.pos.x += Math.cos(-this.wheel) * gas;
+        this.pos.y += Math.sin(-this.wheel) * gas;
 
 
         // le volant pour tourner la map à sens inverse

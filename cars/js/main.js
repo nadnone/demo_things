@@ -6,32 +6,53 @@ import Input_Event from "../Input_Event.js";
 let player = null;
 let input = null;
 
-// à changer
-let img = document.createElement("img");
-img.src = "./assets/map.jpg";
+let map = null;
+
+let initialPos = [46.98951, 6.92855]
+
+// map from https://commons.wikimedia.org/wiki/File:Magellan_Crater_on_Mars_ESA214729.jpg
+//let img = document.createElement("img");
+//img.src = "./assets/map.jpg";
 
 function init()
 {
     // canvas
     canvas.height = EYE.h;
     canvas.width = EYE.w;
-    canvas.style.backgroundColor = "black";
 
+    let style = document.documentElement.style;
+             
+    style.setProperty("--height_var",`${EYE.h}px`);
+    style.setProperty("--width_var",`${EYE.w}px`);
+
+    //canvas.style.backgroundColor = ;
 
     // player
     player = new Car();
+    player.pos.x = initialPos[0];
+    player.pos.y = initialPos[1];
 
     // Input Event
     input = new Input_Event();
+    map = L.map('map', {renderer: L.canvas()}).setView(initialPos, 19);
+    
+    var tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
 }
 
 function drawMap(data)
 {
- 
+    //ctx.beginPath();
+    //ctx.drawImage(img, data.pos.x, data.pos.y, WORLD.w, WORLD.h);
+    //ctx.closePath();
 
-    ctx.beginPath();
-    ctx.drawImage(img, data.pos.x, data.pos.y, WORLD.w, WORLD.h);
-    ctx.closePath();
+    let x = data.pos.x
+    let y = data.pos.y
+
+    map.setView(new L.LatLng(x , y ), 19, {animation : true});
 
 }
 

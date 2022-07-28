@@ -5,9 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cars 2D</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #map {
+             height: var(--height_var);
+             width: var(--width_var);
+             z-index: 1;
+        }
+        canvas
+        {
+            z-index: 99;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+    <!-- Leaflet for Open Street MAP Parsing -->
+  
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+
 </head>
 <body>
-    <canvas></canvas>
+
+
+    <div id="map"></div>
+
+    <canvas id="game"></canvas>
+    
     <script type="module" src="./js/main.js"></script>
+
 </body>
 </html>

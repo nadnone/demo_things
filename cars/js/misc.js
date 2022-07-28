@@ -1,11 +1,11 @@
-const WORLD = {"h": 10000, "w": 10000};
+const WORLD = {"h": 360, "w": 360};
 const EYE =  {
-    "h": 800, "w": 800,
-    "c_x": 400, "c_y": 400
+    "h": 900, "w": 900,
+    "c_x": 450, "c_y": 450
 };
 
 
-let canvas = document.querySelector("canvas");
+let canvas = document.querySelector("#game");
 let ctx = canvas.getContext("2d");
 
 
