@@ -1,4 +1,4 @@
-import { EYE, WORLD } from "./misc.js";
+import { EYE, SPEED_COEFF, WORLD } from "./misc.js";
 
 export default class Car
 {
@@ -10,7 +10,7 @@ export default class Car
         this.v = {"x": 0, "y": 0};
         this.friction_force = 0.5;
         this.wheel = -Math.PI/2;
-        this.speed = 15 / 1000000;
+        this.speed = 15 / SPEED_COEFF;
 
         // Car texture from https://freesvg.org/red-car-vector-art
         this.img = document.createElement("img");
@@ -67,19 +67,19 @@ export default class Car
         // boite à vitesse
         if (input.isKeyDown("Digit1"))
         {
-            this.speed = 15;
+            this.speed = 15 / SPEED_COEFF;
         }
         else if (input.isKeyDown("Digit2"))
         {
-            this.speed = 30;
+            this.speed = 30 / SPEED_COEFF;
         }
         else if (input.isKeyDown("Digit3"))
         {
-            this.speed = 45;
+            this.speed = 45 / SPEED_COEFF;
         }
         else if (input.isKeyDown("Digit4"))
         {
-            this.speed = 60;
+            this.speed = 60 / SPEED_COEFF;
         }
 
         // freins à main
