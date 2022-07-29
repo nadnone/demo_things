@@ -26,31 +26,25 @@ function bresenham_calculus(k, i)
         return x;
 }
 
-function sort_algo(table, table1)
+function bubble_sort_algo(table, table1)
 {
     let t1 = [], t0 = [];
 
-    for (let i = 0; i < table.length; i++) {
+    for (let j = 0; j < table.length; j++) {
+        const el00 = table[j];   
+        const el01 = table[j+1];
+        
+        const el10 = table1[j];   
+        const el11 = table1[j+1];
 
+        if (el01 > el00)
+        {
+            // swap
+            t0[j] = el01;
+            t0[j+1] = el00;
 
-        for (let j = 0; j < table.length; j++) {
-            const el00 = table[j];   
-            const el01 = table[j+1];
-            
-            const el10 = table1[j];   
-            const el11 = table1[j+1];
-
-            if (el01 > el00)
-            {
-                // swap
-                t0[j] = el01;
-                t0[j+1] = el00;
-
-                t1[j] = el11;
-                t1[j+1] = el10;
-            }
-
-
+            t1[j] = el11;
+            t1[j+1] = el10;
         }
 
     }
@@ -62,7 +56,7 @@ function sort_algo(table, table1)
 function scanline_algo(mx, my)
 {
 
-    let [tx, ty] = sort_algo(mx, my);
+    let [tx, ty] = bubble_sort_algo(mx, my);
 
     let cursor_y = ty[1];
     let cursor_x = tx[1];
