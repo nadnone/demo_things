@@ -10,10 +10,6 @@ let map = null;
 
 let initialPos = [46.98951, 6.92855]
 
-// map from https://commons.wikimedia.org/wiki/File:Magellan_Crater_on_Mars_ESA214729.jpg
-//let img = document.createElement("img");
-//img.src = "./assets/map.jpg";
-
 function init()
 {
     // canvas
