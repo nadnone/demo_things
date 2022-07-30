@@ -9,43 +9,46 @@ canvas.style.backgroundColor = "black";
 
 let objet = [
     {"x": 100, "y": 100},
-    {"x": 450, "y": 500},
-    {"x": 450, "y": 350},
+    {"x": 600, "y": 100},
+    {"x": 600, "y": 600}
+
+
 ];
 
 let ordre = [
     0, 1,
     1, 2,
-    2, 0,
+    2, 0
+    
 ];
 
 
 
-function bubble_sort_algo(table, table1)
+function bubble_sort_algo(mx, my)
 {
-    let t1 = [], t0 = [];
+    let tx = [], ty = [];
 
-    for (let j = 0; j < table.length; j++) {
+    for (let j = 0; j < mx.length; j++) {
 
 
-        const el00 = table[j];   
-        const el01 = table[j+1];
+        const x0 = mx[j];   
+        const x1 = mx[j+1];
         
-        const el10 = table1[j];   
-        const el11 = table1[j+1];
+        const y0 = my[j];   
+        const y1 = my[j+1];
 
-        if (el01 > el00)
+        if (x1 > x0)
         {
             // swap
-            t0[j] = el01;
-            t0[j+1] = el00;
+            ty[j] = y1;
+            ty[j+1] = y0;
 
-            t1[j] = el11;
-            t1[j+1] = el10;
+            tx[j] = x1;
+            tx[j+1] = x0;
         }
 
     }
-    return [t0, t1];
+    return [tx, ty];
 }
 
 function scanline_algo(mx, my)
@@ -83,8 +86,6 @@ function scanline_algo(mx, my)
 
 }
 
-
-
 function bresenham_calculus(k, i)
 {
     let x = (objet[ordre[k+1]].x - objet[ordre[k]].x) / (objet[ordre[k+1]].y - objet[ordre[k]].y);
@@ -108,7 +109,7 @@ function line_calculus(objet, k, a, b)
    
 
         for (let y = objet[ordre[k+a]].y; y < objet[ordre[k+b]].y; y++) {
-
+            
             mx.push(x);
             my.push(y);
 
