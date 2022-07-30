@@ -9,28 +9,25 @@ canvas.style.backgroundColor = "black";
 
 let objet = [
     {"x": 100, "y": 100},
-    {"x": 500, "y": 500},
+    {"x": 450, "y": 500},
+    {"x": 450, "y": 350},
 ];
 
 let ordre = [
     0, 1,
-    1, 0,
+    1, 2,
+    2, 0,
 ];
 
 
-function bresenham_calculus(k, i)
-{
-        let x = (objet[ordre[k+1]].x - objet[ordre[k]].x) / (objet[ordre[k+1]].y - objet[ordre[k]].y);
-        x *= (i - objet[ordre[k]].y);
-        x += objet[ordre[k]].x;
-        return x;
-}
 
 function bubble_sort_algo(table, table1)
 {
     let t1 = [], t0 = [];
 
     for (let j = 0; j < table.length; j++) {
+
+
         const el00 = table[j];   
         const el01 = table[j+1];
         
@@ -48,8 +45,6 @@ function bubble_sort_algo(table, table1)
         }
 
     }
-
-    
     return [t0, t1];
 }
 
@@ -58,38 +53,94 @@ function scanline_algo(mx, my)
 
     let [tx, ty] = bubble_sort_algo(mx, my);
 
-    let cursor_y = ty[1];
-    let cursor_x = tx[1];
+    let x0 = tx[0];
 
-    for (let i = 0; i < ty.length; i++) {
-        
-        const y = ty[i];
-        const x1 = tx[i];
+    for (let j = 0; j < ty.length; j++) {
+       
+        const y = ty[j];
 
-        if (y !== cursor_y)
-        {
+        for (let k = 0; k < tx.length; k++) {
+      
+            const x1 = tx[k];
 
-            for (let x = cursor_x; x < x1; x++) {
+            if (x0 < x1)
+            {
+                for (let i = x0; i < x1; i++) {
+                    
+                    drawPixel( {"x": i, "y": y}, {"r": 255, "g": 125, "b": 0}, 6);
+                }
+    
+                x0 = x1;
+            }
 
-                drawPixel( {"x": x, "y": y}, {"r": 255, "g": 125, "b": 0}, 6);
-                
-            } 
-
-            cursor_y = y;
-            
-        }
-        else
-        {
-            cursor_x = x1;
         }
 
+        x0 = tx[j];
 
-
-        
+       
     }
+
+
+}
+
+
+
+function bresenham_calculus(k, i)
+{
+    let x = (objet[ordre[k+1]].x - objet[ordre[k]].x) / (objet[ordre[k+1]].y - objet[ordre[k]].y);
+    x *= (i - objet[ordre[k]].y);
+    x += objet[ordre[k]].x;
+    return x;
+}
+
+function line_calculus(objet, k, a, b)
+{
+    let mx = [];
+    let my = [];
+
+
+    if (objet[ordre[k+a]].x === objet[ordre[k+b]].x)
+    {
+        let x = objet[ordre[k+b]].x;
+
+        if (objet[ordre[k]].y < objet[ordre[k+1]].y)  a = 0, b = 1;
+        else a = 1, b = 0;
+   
+
+        for (let y = objet[ordre[k+a]].y; y < objet[ordre[k+b]].y; y++) {
+
+            mx.push(x);
+            my.push(y);
+
+        }
+    }
+    else if (objet[ordre[k+a]].y === objet[ordre[k+b]].y)
+    {
+        let y = objet[ordre[k+b]].y;
+
+        if (objet[ordre[k]].x < objet[ordre[k+1]].x)  a = 0, b = 1;
+        else a = 1, b = 0;
+   
+
+        for (let x = objet[ordre[k+a]].x; x < objet[ordre[k+b]].x; x++) {
+
+            mx.push(x);
+            my.push(y);
+
+        }
+    }
+    else
+    {
+        for (let x = objet[ordre[k+a]].x; x < objet[ordre[k+b]].x; x++) {
+
+            let y = bresenham_calculus(k, x);
+            mx.push(x);
+            my.push(y);
         
+        }
+    }
 
-
+    return [mx, my];
 
 }
 
@@ -100,22 +151,16 @@ function bresengan_aglorithm(objet)
 
     for (let k = 0; k < ordre.length; k+=2) {
 
-        let condition = objet[ordre[k]].x < objet[ordre[k+1]].x || objet[ordre[k]].y < objet[ordre[k+1]].y;
-
         let [a, b] = [0, 0];
 
-        if (condition)  a = 0, b = 1;
+        if (objet[ordre[k]].x < objet[ordre[k+1]].x)  a = 0, b = 1;
         else a = 1, b = 0;
    
 
-        for (let x = objet[ordre[k+a]].x; x < objet[ordre[k+b]].x; x++) {
+        [ox, oy] = line_calculus(objet, k, a, b);
 
-            let y = bresenham_calculus(k, x);
-            mx.push(x);
-            my.push(y);
-
-        }
-
+        mx = mx.concat(ox);
+        my = my.concat(oy);
 
     }
     
@@ -144,6 +189,7 @@ let t = 0;
 function main()
 {
     let [mx, my] = bresengan_aglorithm(objet);
+
     scanline_algo(mx, my);
 }
 
