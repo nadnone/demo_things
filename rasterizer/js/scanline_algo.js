@@ -1,6 +1,6 @@
 import { drawPixel } from './graphics.js';
 import bubble_sort_algo from './bubble_sort_algo.js';
-
+import { N } from './misc.js';
 
 
 export default function scanline_algo(m)
@@ -27,19 +27,18 @@ export default function scanline_algo(m)
         const x1 = x_list[x_list.length-1];
         
 
-
         if (x0 < x1)
         {
             for (let x = x0; x < x1; x++) {
 
-                drawPixel( {"x": x, "y": y0}, {"r": 255, "g": 125, "b": 0}, 12);
+                drawPixel( {"x": x, "y": y0}, {"r": 255, "g": 125, "b": 0}, 10);
             }
         }
         else
         {
             for (let x = x1; x < x0; x++) {
 
-                drawPixel( {"x": x, "y": y0}, {"r": 255, "g": 125, "b": 0}, 12);
+                drawPixel( {"x": x, "y": y0}, {"r": 255, "g": 125, "b": 0}, 10);
             }
         }
 
@@ -50,14 +49,3 @@ export default function scanline_algo(m)
 
     }
 }
-
-
-/*
-const x1 = m_sorted[j].x;
-const y1 = m_sorted[j].y;
-
-for (let x = x0; x < x1; x++) {
-    
-    drawPixel( {"x": x, "y": y1}, {"r": 0, "g": 100, "b": 0}, 6);
-    
-}*/

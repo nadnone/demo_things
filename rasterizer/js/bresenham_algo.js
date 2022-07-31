@@ -1,5 +1,3 @@
-import { drawPixel } from "./graphics.js";
-
 export default function bresengan_aglorithm(objet)
 {
     let m = [];
@@ -14,7 +12,7 @@ export default function bresengan_aglorithm(objet)
     return m;
 
 }
-function bresenham_calculus_Y(objet, k, m, l)
+function calculus_Y(objet, k, m, l)
 {
     let [a,b] = [0,0];
 
@@ -42,7 +40,7 @@ function bresenham_calculus_Y(objet, k, m, l)
 }
 
 
-function bresenham_calculus_X(objet, k, m, l)
+function calculus_X(objet, k, m, l)
 {
     let [a,b] = [0,0];
     
@@ -103,8 +101,8 @@ function bresenham_calculus(k, objet, l, m)
 function condition_loop(m, objet, k, l)
 {
 
-    m = bresenham_calculus_Y(objet, k, m, l);
-    m = bresenham_calculus_X(objet, k, m, l);
+    m = calculus_Y(objet, k, m, l);
+    m = calculus_X(objet, k, m, l);
 
     m = bresenham_calculus(k, objet, l, m);
 
