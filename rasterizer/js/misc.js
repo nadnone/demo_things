@@ -7,4 +7,4 @@ canvas.width = N;
 canvas.style.backgroundColor = "black";
 
 
-export { ctx }
+export { ctx, N }

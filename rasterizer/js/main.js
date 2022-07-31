@@ -5,8 +5,8 @@ import scanline_algo from './scanline_algo.js';
 
 let objet = [
     {"x": 100, "y": 100},
-    {"x": 100, "y": 600},
-    {"x": 600, "y": 600}
+    {"x": 600, "y": 100},
+    {"x": 300, "y": 600},
 ];
 
 

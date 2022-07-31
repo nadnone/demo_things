@@ -4,37 +4,21 @@ export default function bresengan_aglorithm(objet)
 {
     let m = [];
 
-    for (let k = 0; k < objet.length - 1; k++) {
+    for (let k = 0; k < objet.length-1; k++) {
 
-        m = condition_loop(m, objet, k);
+        m = condition_loop(m, objet, k, 1);
     }
+    m = condition_loop(m, objet, 0, objet.length - 1);
     
-    m = condition_loop(m, objet, "last");
 
     return m;
 
 }
-function bresenham_calculus(k, i, objet, a, b)
+function bresenham_calculus_Y(objet, k, m, l)
 {
-    let x = (objet[k+b].x - objet[k+a].x) / (objet[k+b].y - objet[k+a].y);
-    x *= (i - objet[k+a].y);
-    x += objet[k+a].x;
-    return x;
-}
+    let [a,b] = [0,0];
 
-function condition_loop(m, objet, k)
-{
-    let a = 0, b = 0;
-
-    if (k === "last" && objet[0].x < objet[ objet.length - 1].x)
-    {
-        a = 0; b = objet.length - 1; k = 0;
-    }
-    else if (k === "last" && objet[0].x > objet[ objet.length - 1].x) 
-    {
-        a = objet.length -1; b = 0; k = 0;
-    }
-    else if (objet[k].x < objet[k+1].x && k !== "last")
+    if (objet[k].x < objet[k+l].x)
     {
         a = 0, b = 1; 
     }  
@@ -43,18 +27,6 @@ function condition_loop(m, objet, k)
         a = 1, b = 0;
     }
 
-    
-
-    for (let y = objet[k+a].y; y < objet[k+b].y; y++) {
-
-        let x = bresenham_calculus(k, y, objet, a, b);
-        m.push({"x": x, "y": y})
-
-        drawPixel( {"x": x, "y": y}, {"r": 0, "g": 255, "b": 0}, 6);
-    
-    }
-   
-    // les Y
 
     if (objet[k+a].y === objet[k+b].y )
     {
@@ -63,22 +35,18 @@ function condition_loop(m, objet, k)
     
             m.push({"x": x, "y": y})
 
-            drawPixel( {"x": x, "y": y}, {"r": 0, "g": 100, "b": 0}, 6);
-    
         }
     }
-    // les X
 
+    return m;
+}
+
+
+function bresenham_calculus_X(objet, k, m, l)
+{
+    let [a,b] = [0,0];
     
-    if (k === "last" && objet[0].y < objet[ objet.length - 1].y)
-    {
-        a = 0; b = objet.length - 1; k = 0;
-    }
-    else if (k === "last" && objet[0].y > objet[ objet.length - 1].y) 
-    {
-        a = objet.length -1; b = 0; k = 0;
-    }
-    else if (objet[k].y < objet[k+1].y && k !== "last")
+    if (objet[k].y < objet[k+l].y)
     {
         a = 0, b = 1; 
     }  
@@ -87,18 +55,59 @@ function condition_loop(m, objet, k)
         a = 1, b = 0;
     }
 
-
     if (objet[k+a].x === objet[k+b].x)
     {
         let x = objet[k+b].x;
         for (let y = objet[k+a].y; y < objet[k+b].y; y++) {
     
-            m.push({"x": x, "y": y})
+            m.push({"x": x, "y": y});
 
-            drawPixel( {"x": x, "y": y}, {"r": 100, "g": 0, "b": 0}, 6);
-    
         }
     }
-   
+
+    return m;
+}
+
+
+
+function bresenham_calculus(k, objet, l, m)
+{
+    let a = 0;
+
+
+    
+    if (objet[k].x > objet[k+l].x) 
+    {
+        a = l; l = 0;
+    }
+
+    for (let x = objet[k+a].x; x < objet[k+l].x; x++) {
+
+        let y = (objet[k+l].y - objet[k+a].y) / (objet[k+l].x - objet[k+a].x) ;
+            y *= (x - objet[k+a].x);
+            y += objet[k+a].y;
+
+            m.push({"x": x, "y": y});
+            
+    }
+
+
+    return m;
+    
+}
+
+
+
+
+
+function condition_loop(m, objet, k, l)
+{
+
+    m = bresenham_calculus_Y(objet, k, m, l);
+    m = bresenham_calculus_X(objet, k, m, l);
+
+    m = bresenham_calculus(k, objet, l, m);
+
+
     return m;
 }
