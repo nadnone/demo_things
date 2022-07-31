@@ -59,7 +59,6 @@ function calculus_X(objet, k, m, l)
         for (let y = objet[k+a].y; y < objet[k+b].y; y++) {
     
             m.push({"x": x, "y": y});
-
         }
     }
 

@@ -8,7 +8,7 @@ export default function scanline_algo(m)
 
     let m_sorted = bubble_sort_algo(m);
    
-    for (let i = 0; i < m_sorted.length - 1; i++) {
+    for (let i = m_sorted.length - 1; i > 0; i--) {
 
         const x0 = m_sorted[i].x;
         const y0 = m_sorted[i].y;
