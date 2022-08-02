@@ -8,20 +8,17 @@ function sort_fun(m, j)
     const x0 = m[j].x;   
     const y0 = m[j].y;   
     
-    let vec;
-    
     // swap
     if (x0 > x1)
     {
-        vec = {"x": x1, "y": y1};
+        return {"x": x1, "y": y1};
 
     }
     else
     {
-        vec = {"x": x0, "y": y0};
+        return {"x": x0, "y": y0};
     }
 
-    return vec;
 }
 
 export default function bubble_sort_algo(m)
@@ -29,10 +26,9 @@ export default function bubble_sort_algo(m)
 
     let m_tmp = [];
 
-    for (let j = 0; j < m.length; j+=2) {
+    for (let j = 0; j < m.length - 1; j++) {
 
-        let vec = sort_fun(m, j);
-        m_tmp.push(vec);
+        m_tmp.push(sort_fun(m, j));
 
     }
 
