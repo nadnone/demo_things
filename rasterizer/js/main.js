@@ -1,6 +1,5 @@
-import bresengan_aglorithm from './bresenham_algo.js';
-import scanline_algo from './scanline_algo.js';
 
+import Rasterizer from './Rasterizer/Rasterizer.js';
 
 let obj_list = [
     // première branche du N
@@ -13,9 +12,9 @@ let obj_list = [
     // diagonale
     [
         {"x": 200, "y": 100},
-        {"x": 200, "y": 200},
+        {"x": 200, "y": 300},
         {"x": 600, "y": 700},
-        {"x": 600, "y": 600},
+        {"x": 600, "y": 500},
 
     ],
     // dérnière branche du N
@@ -30,15 +29,8 @@ let obj_list = [
 
 function main()
 {
-    for (let i = 0; i < obj_list.length; i++) {
-        const objet = obj_list[i];
-
-        let m = bresengan_aglorithm(objet);
-        scanline_algo(m);
-        
-    }
-
-
+   
+    new Rasterizer(obj_list);
 
 }
 
