@@ -1,4 +1,4 @@
-import { CAMERA_Z, HALF_HEIGHT, HALF_WIDTH, SCALE_MAX, SCALE_MIN } from './misc.js';
+import { CAMERA_Z, FOV, HALF_FOV, HALF_HEIGHT, HALF_WIDTH } from './misc.js';
 
 export default function projection(obj)
 {
@@ -11,12 +11,21 @@ export default function projection(obj)
         for (let j = 0; j < obj[i].length; j++) {
 
 
-            let z =  CAMERA_Z - obj[i][j][2] / 2 ; // z
-            let x0 = HALF_WIDTH - obj[i][j][0]; // x
-            let y0 = HALF_HEIGHT - obj[i][j][1]; // y
+            let z =  obj[i][j][2] - CAMERA_Z; // z
+            let x0 = obj[i][j][0]; // x
+            let y0 = obj[i][j][1]; // y
+            
 
-            let x = ((HALF_HEIGHT + (HALF_HEIGHT * SCALE_MIN)) * x0) / z 
-            let y = ((HALF_WIDTH + (HALF_WIDTH * SCALE_MAX)) * y0) / z 
+            /* Formula from here
+                
+                https://fr-academic.com/dic.nsf/frwiki/1601667
+
+                I get the tangant angle from the camera to the objet and i use cos ans sin to get the (x,y) coordinates on the 2D plan
+            */
+
+            let x = Math.cos(FOV * z) + (x0 + HALF_WIDTH);
+            let y = Math.sin(FOV * z) + (y0 + HALF_HEIGHT);
+
 
             projection_matrice.push([x, y, z]);
 

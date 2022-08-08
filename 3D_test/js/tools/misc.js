@@ -13,13 +13,6 @@ canvas.style.backgroundColor = "black";
 const FOV = 68 * Math.PI / 180;
 const HALF_FOV = (FOV / 2);
 
-const CAMERA_Z = 500;
+const CAMERA_Z = 60;
 
-
-const ASPECT_RATIO = HEIGHT/WIDTH;
-const SCALE = Math.tan( HALF_FOV ) / 2;
-
-const SCALE_MIN = SCALE / Math.min(1, ASPECT_RATIO);
-const SCALE_MAX = SCALE * Math.max(1, ASPECT_RATIO);
-
-export { ctx, FOV, HALF_FOV, SCALE, CAMERA_Z, ASPECT_RATIO, HALF_HEIGHT, HALF_WIDTH, SCALE_MAX, SCALE_MIN, HEIGHT, WIDTH }
+export { ctx, FOV, HALF_FOV, CAMERA_Z, HALF_HEIGHT, HALF_WIDTH, HEIGHT, WIDTH }
