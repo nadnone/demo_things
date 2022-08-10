@@ -1,11 +1,13 @@
 import { ctx, HEIGHT, WIDTH } from './constants.js';
-import { soustraction, cross_product, norme, dot, scalar_product, multiply, addition } from './vectors_maths.js';
+import { soustraction, norme, dot, scalar_product, multiply, addition, determinant } from './vectors_maths.js';
 
 
 export default function edge_function_method(m, colors) 
 {
 
     let m_out = [];
+
+    let z_buffer = -Infinity;
 
     for (let i = 0; i < m.length; i+=3) {
        
@@ -53,10 +55,10 @@ export default function edge_function_method(m, colors)
 
                 if (inside_triangle)
                 {
-                    const D = Math.sqrt( px**2 + py**2 );
-                    const z = (-V0[0] - V1[1] - D) / V2[2]; // A REVOIR
+                    // REVOIR LE Z_BUFFER
 
                     m_out.push([px, py, z, colors[Math.floor(i/6)]]);
+
 
                 }
     
@@ -76,7 +78,7 @@ function edge_fn(p, a, b)
 
     let deltaP = soustraction(p, a);
     let deltaBA = soustraction(b, a);
-    let cross = cross_product(deltaBA, deltaP);
+    let cross = determinant(deltaBA, deltaP);
 
     return cross >= 0
 }

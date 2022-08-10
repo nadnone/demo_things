@@ -33,7 +33,7 @@ export default function projection(obj)
 
             const Z_FAR = 10; // Max deep
             const Z_NEAR = 1; // Min deep
-            const LAMBDA = Z_FAR / (Z_FAR - Z_NEAR) // scale factore
+            const LAMBDA = Z_FAR / (Z_FAR - Z_NEAR) // scale factor
 
 
             let x = APSECT_RATIO * F * x0

@@ -2,7 +2,6 @@
 import { ctx, HEIGHT, WIDTH } from './tools/constants.js';
 import projection from './tools/projection.js';
 import edge_function_method from './tools/edge_function.js';
-import depth_buffer from './tools/depth_buffer.js';
 import drawFunction from './tools/drawFunction.js';
 
 import { cube, colors } from './data/cube.js';
@@ -10,7 +9,6 @@ import { cube, colors } from './data/cube.js';
 function main()
 {
 
-    let depth = new depth_buffer();
 
     ctx.clearRect(0,0, WIDTH, HEIGHT);
 
@@ -48,10 +46,9 @@ function main()
 
 
     let projectionMAT = projection(matrice_transform);
-    
-    projectionMAT = edge_function_method(projectionMAT, colors);
 
-    projectionMAT = depth.depth_check(projectionMAT, depth);
+    projectionMAT = edge_function_method(projectionMAT, colors);
+    
 
     drawFunction(projectionMAT);
 

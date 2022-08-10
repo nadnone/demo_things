@@ -21,7 +21,7 @@ function angle_vector(a, b)
 }
 
 
-function cross_product(a, b)
+function determinant(a, b)
 {
     return (a[0] * b[1]) - (a[1] * b[0]);
 }
@@ -72,4 +72,4 @@ function multiply(a, b)
 }
 
 
-export { soustraction,scalar_product, multiply, addition, dot, cross_product, norme, angle_vector}
+export { soustraction,scalar_product, multiply, addition, dot, determinant, norme, angle_vector}
