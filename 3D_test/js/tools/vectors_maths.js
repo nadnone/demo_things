@@ -1,12 +1,12 @@
 
 function norme(a) {
     
-    return Math.sqrt( a[0]**2 + a[1]**2 )
+    return Math.sqrt( a[0]**2 + a[1]**2 + a[2]**2 )
 }
 
 function scalar_product(a, factor)
 {
-    return a[0] * factor + a[1] * factor + a[2] * factor;
+    return a[0] * factor + a[1] * factor + a[2] * factor
 }
 
 function dot(a, b)

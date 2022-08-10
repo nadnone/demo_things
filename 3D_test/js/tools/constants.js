@@ -10,9 +10,4 @@ canvas.height = HEIGHT;
 canvas.width = WIDTH;
 canvas.style.backgroundColor = "black";
 
-const FOV = 68 * Math.PI / 180;
-const HALF_FOV = (FOV / 2);
-
-const CAMERA_Z = 60;
-
-export { ctx, FOV, HALF_FOV, CAMERA_Z, HALF_HEIGHT, HALF_WIDTH, HEIGHT, WIDTH }
+export { ctx, HALF_HEIGHT, HALF_WIDTH, HEIGHT, WIDTH }

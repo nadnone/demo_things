@@ -1,9 +1,11 @@
-import { ctx, HEIGHT, WIDTH } from './misc.js';
+import { ctx, HEIGHT, WIDTH } from './constants.js';
 import { soustraction, cross_product, norme, dot, scalar_product, multiply, addition } from './vectors_maths.js';
 
 
-export default function edge_function_method(m, color, depth) 
+export default function edge_function_method(m, colors) 
 {
+
+    let m_out = [];
 
     for (let i = 0; i < m.length; i+=3) {
        
@@ -49,22 +51,12 @@ export default function edge_function_method(m, color, depth)
                 inside_triangle &= edge_fn(p, V2, V0);
                 
 
-                // Depth buffer (à Revoir)
-                const D = Math.sqrt( px**2 + py**2 );
-                const z = (-V0[0] - V1[1] - D) / V2[2];
-                const depth_checker = Math.floor(z) < depth[Math.floor(px) + Math.floor(py) * WIDTH] && V2[2] !== 0;
-
-
-                if (inside_triangle && depth_checker)
+                if (inside_triangle)
                 {
+                    const D = Math.sqrt( px**2 + py**2 );
+                    const z = (-V0[0] - V1[1] - D) / V2[2]; // A REVOIR
 
-                    depth[Math.floor(px) + Math.floor(py) * WIDTH] = Math.floor(z);
-
-
-                    ctx.beginPath();
-                    ctx.fillStyle = color[i/6]
-                    ctx.fillRect(px, py, 1, 1);
-                    ctx.closePath();
+                    m_out.push([px, py, z, colors[Math.floor(i/6)]]);
 
                 }
     
@@ -75,6 +67,7 @@ export default function edge_function_method(m, color, depth)
 
     }
 
+    return m_out;
 }
 
 
