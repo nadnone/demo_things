@@ -57,6 +57,8 @@ export default function edge_function_method(m, colors)
                 {
                     // REVOIR LE Z_BUFFER
 
+                    let z = 0;
+
                     m_out.push([px, py, z, colors[Math.floor(i/6)]]);
 
 
