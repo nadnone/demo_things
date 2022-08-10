@@ -10,40 +10,47 @@ export default function edge_function_method(m) {
     let max_y = -Infinity;
 
         
-    const a = abs(m[0])
-    const b = abs(m[1])
-    const c = abs(m[2])
+    const V0 = m[0]
+    const V1 = m[1]
+    const V2 = m[2]
 
-    min_x = a.x < b.x ? a.x : b.x;
-    min_x = min_x < c.x ? min_x : c.x;
+    min_x = V0.x < V1.x ? V0.x : V1.x;
+    min_x = min_x < V2.x ? min_x : V2.x;
 
-    min_y = a.y < b.y ? a.y : b.y;
-    min_y = min_y < c.y ? min_y : c.y;
+    min_y = V0.y < V1.y ? V0.y : V1.y;
+    min_y = min_y < V2.y ? min_y : V2.y;
 
-    max_x = a.x > b.x ? a.x : b.x;
-    max_x = max_x > c.x ? max_x : c.x;
+    max_x = V0.x > V1.x ? V0.x : V1.x;
+    max_x = max_x > V2.x ? max_x : V2.x;
 
-    max_y = a.y > b.y ? a.y : b.y;
-    max_y = max_y > c.y ? max_y : c.y;
+    max_y = V0.y > V1.y ? V0.y : V1.y;
+    max_y = max_y > V2.y ? max_y : V2.y;
 
 
     for (let px = min_x; px <= max_x; px++) {
 
         for (let py = min_y; py <= max_y; py++) {
 
-            let e0 = edge_fn(px, py, a, b);
-            let e1 = edge_fn(px, py, b, c);
-            let e2 = edge_fn(px, py, c, a);
+            let p = {"x": px, "y": py};
             
+            let inside_triangle = true;
 
-            if ((e0 && e1 && e2) <= 0) 
+            inside_triangle &= edge_fn(p, V0, V1);
+            inside_triangle &= edge_fn(p, V1, V2);
+            inside_triangle &= edge_fn(p, V2, V0);
+
+
+            if (inside_triangle)
             {
+
                 ctx.beginPath();
                 ctx.fillStyle = "#fff"
                 ctx.fillRect(px, py, 1, 1);
                 ctx.closePath();
-            }
 
+            }
+          
+            
         }
         
 
@@ -54,15 +61,28 @@ export default function edge_function_method(m) {
 
 
 }
+function edge_fn(p, a, b)
+{
 
+    let deltaP = soustraction(p, a);
+    let deltaBA = soustraction(b, a);
+    let cross = cross_product(deltaBA, deltaP);
 
-function abs(a) {
-    
-    return {"x": Math.abs(a.x), "y": Math.abs(a.y)};
+    return cross >= 0
 }
 
-function edge_fn(px, py, a, b)
+function cross_product(a, b)
 {
-   return (px - a.x) * (b.y - a.y) - (py - a.y) * (b.x - a.x);
-    
+    return (a.x * b.y) - (a.y * b.x);
+}
+
+
+function soustraction(a,b)
+{
+    let v = [];
+
+    v.x = a.x - b.x;
+    v.y = a.y - b.y;
+
+    return v;
 }

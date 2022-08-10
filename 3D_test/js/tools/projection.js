@@ -11,6 +11,9 @@ export default function projection(obj)
         for (let j = 0; j < obj[i].length; j++) {
 
 
+            
+
+
             let z =  obj[i][j][2] - CAMERA_Z; // z
             let x0 = obj[i][j][0]; // x
             let y0 = obj[i][j][1]; // y
@@ -30,6 +33,7 @@ export default function projection(obj)
             projection_matrice.push([x, y, z]);
 
         
+
 
         }
 
