@@ -31,7 +31,7 @@ export default function projection(obj)
             const HALF_FOV = FOV/2;
             const F = 1 / Math.tan(HALF_FOV);
 
-            const Z_FAR = 10; // Max deep
+            const Z_FAR = 100; // Max deep
             const Z_NEAR = 1; // Min deep
             const LAMBDA = Z_FAR / (Z_FAR - Z_NEAR) // scale factor
 

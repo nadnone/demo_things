@@ -41,14 +41,13 @@ function main()
 
         matrice_transform[j] = math.multiply(matrice_transform[j], MATRIX_ROT_X)
         matrice_transform[j] = math.multiply(matrice_transform[j], MATRIX_ROT_Y)
-        matrice_transform[j] = math.multiply(matrice_transform[j], MATRIX_ROT_z)
+        //matrice_transform[j] = math.multiply(matrice_transform[j], MATRIX_ROT_z)
     }
 
 
     let projectionMAT = projection(matrice_transform);
 
     projectionMAT = edge_function_method(projectionMAT, colors);
-    
 
     drawFunction(projectionMAT);
 
@@ -57,4 +56,4 @@ function main()
 }
 
 //main();
-setInterval(main, 30);
+setInterval(main,);

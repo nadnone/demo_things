@@ -6,9 +6,14 @@ function norme(a) {
 
 function scalar_product(a, factor)
 {
-    return a[0] * factor + a[1] * factor + a[2] * factor
-}
+    let r = [];
 
+    for (let i = 0; i < a.length; i++) {
+        r[i] = a[i] * factor;
+    }
+
+    return r
+}
 function dot(a, b)
 {
     return (a[0] * b[1]) + (a[1] * b[0]);
@@ -21,9 +26,60 @@ function angle_vector(a, b)
 }
 
 
-function determinant(a, b)
+function determinant_2x2([a, b])
 {
     return (a[0] * b[1]) - (a[1] * b[0]);
+}
+
+
+function determinant_3x3(m)
+{
+
+    /*
+        Règle de Sarrus :
+
+            x 0 0   0 x 0   0 0 x   0 0 x   0 x 0   x 0 0
+            0 x 0 + 0 0 x + x 0 0 - 0 x 0 - x 0 0 - 0 0 x
+            0 0 x   x 0 0   0 x 0   x 0 0   0 0 x   0 x 0
+    */
+
+    let r_m = m[0][0] * m[1][1] * m[2][2]
+        r_m += m[1][0] * m[2][1] * m[2][0]
+        r_m += m[2][0] * m[0][1] * m[1][2]
+
+        r_m -= m[2][0] * m[1][1] * m[0][2]
+        r_m -= m[1][0] * m[0][1] * m[2][2]
+        r_m -= m[0][0] * m[2][1] * m[1][2]
+        
+
+    return r_m;
+
+}
+
+function determinant_4x4(m)
+{
+
+    /*
+        Règle de Sarrus :
+               1         2         3         4         5         6         7         8
+            x 0 0 0   0 x 0 0   0 0 x 0   0 0 0 x   0 0 0 x   0 0 x 0   0 x 0 0   x 0 0 0
+            0 x 0 0 + x 0 x 0 + 0 0 0 x + 0 0 0 0 - 0 0 x 0 - 0 x 0 x - x 0 0 0 - 0 0 0 0
+            0 0 x 0   0 x 0 x   x 0 0 0   0 0 0 0   0 x 0 0   x 0 x 0   0 0 0 x   0 0 0 0
+            0 0 0 x   0 0 x 0   0 x 0 0   x 0 0 0   x 0 0 0   0 x 0 0   0 0 x 0   0 0 0 x
+    */
+
+    let r_m = m[0][0] * m[1][1] * m[2][2] * m[3][3] // 1
+        r_m += m[1][0] * m[2][1] * m[3][2] * m[0][1] * m[1][2] * m[2][3] // 2
+        r_m += m[2][0] * m[3][1] * m[0][2] * m[1][3] // 3
+        r_m += m[3][0] * m[0][3] // 4
+
+        r_m -= m[3][0] * m[2][1] * m[1][2] * m[0][3] // 5
+        r_m -= m[2][0] * m[1][1] * m[0][2] * m[3][1] * m[2][2] * m[1][3] // 6
+        r_m -= m[1][0] * m[0][1] * m[3][2] * m[2][3] // 7
+        r_m -= m[0][0] * m[3][3]
+
+    return r_m;
+
 }
 
 function addition(a,b)
@@ -48,28 +104,5 @@ function soustraction(a,b)
     return v;
 }
 
-function multiply(a, b)
-{
 
-
-
-    // A REVOIR
-
-    let columns = []
-    for (let l = 0; l < 3; l++) {
-        
-        let row = []
-        for (let w = 0; w < 3; w++) {
-
-            row[w] = a[0][w] * b[l][0] + a[1][w] * b[l][1] + a[2][w] * b[l][2];
-        }
-        columns.push(row);
-
-        
-    }
-
-    return columns;
-}
-
-
-export { soustraction,scalar_product, multiply, addition, dot, determinant, norme, angle_vector}
+export { determinant_4x4, soustraction,scalar_product,determinant_3x3, addition, dot, determinant_2x2, norme, angle_vector}
