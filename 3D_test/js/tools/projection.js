@@ -1,4 +1,4 @@
-import { HALF_HEIGHT, HALF_WIDTH, HEIGHT, WIDTH } from './constants.js';
+import { APSECT_RATIO, F, LAMBDA, Z_NEAR } from './constants.js';
 
 export default function projection(obj)
 {
@@ -26,22 +26,10 @@ export default function projection(obj)
 
             */
 
-            const APSECT_RATIO = HEIGHT/WIDTH;
-            const FOV = 68.0 * Math.PI / 180
-            const HALF_FOV = FOV/2;
-            const F = 1 / Math.tan(HALF_FOV);
 
-            const Z_FAR = 100; // Max deep
-            const Z_NEAR = 1; // Min deep
-            const LAMBDA = Z_FAR / (Z_FAR - Z_NEAR) // scale factor
-
-
-            let x = APSECT_RATIO * F * x0
-            let y = F * y0
-            let z = LAMBDA * z0 - Z_NEAR
-
-            x += HALF_WIDTH
-            y += HALF_HEIGHT
+            const x = APSECT_RATIO * F * x0
+            const y = F * y0
+            const z = LAMBDA * z0 - Z_NEAR
 
 
             projection_buffer.push([x, y, z]);

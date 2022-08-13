@@ -16,7 +16,7 @@ function scalar_product(a, factor)
 }
 function dot(a, b)
 {
-    return (a[0] * b[1]) + (a[1] * b[0]);
+    return (a[0] * b[0]) + (a[1] * b[1]) + (a[2] * b[2])
 }
 
 
@@ -26,9 +26,9 @@ function angle_vector(a, b)
 }
 
 
-function determinant_2x2([a, b])
+function cross_product([a, b])
 {
-    return (a[0] * b[1]) - (a[1] * b[0]);
+    return norme(a) * norme(b) * Math.sin(angle_vector(a,b))
 }
 
 
@@ -104,5 +104,27 @@ function soustraction(a,b)
     return v;
 }
 
+function multiply(a, b)
+{
+ 
+    let m = []
+    for (let i = 0; i < 3; i++) {
+        
+        let row = [0,0,0]
+        for (let j = 0; j < 3; j++) {
 
-export { determinant_4x4, soustraction,scalar_product,determinant_3x3, addition, dot, determinant_2x2, norme, angle_vector}
+            for (let k = 0; k < 3; k++) {
+
+                row[j] += a[i][k] * b[k][j]
+
+            }
+
+        }
+        m.push(row)
+
+    }
+
+    return m
+}
+
+export { multiply, determinant_4x4, soustraction,scalar_product,determinant_3x3, addition, dot, cross_product, norme, angle_vector}

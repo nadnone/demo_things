@@ -1,5 +1,4 @@
-import { ctx, HEIGHT, WIDTH } from './constants.js';
-import { soustraction, determinant_2x2, determinant_3x3, } from './vectors_maths.js';
+import { soustraction, determinant_3x3, } from './vectors_maths.js';
 
 export default function edge_function_method(m, colors) 
 {
@@ -9,7 +8,7 @@ export default function edge_function_method(m, colors)
     for (let i = 0; i < m.length; i+=3) {
        
 
-        const V0 = m[i + 0]
+        const V0 = m[i + 0] 
         const V1 = m[i + 1]
         const V2 = m[i + 2]
         
@@ -21,10 +20,7 @@ export default function edge_function_method(m, colors)
         const max_x = Math.max(V0[0], V1[0], V2[0]);
         const max_y = Math.max(V0[1], V1[1], V2[1]);
     
-        
         const volum_total = determinant_3x3([V0,V1,V2])
-
-        let z_buffer = Infinity;
     
         for (let px = min_x; px <= max_x; px++) 
         {
@@ -32,7 +28,25 @@ export default function edge_function_method(m, colors)
             for (let py = min_y; py <= max_y; py++) 
             {
     
-                const p = [px, py, 0];
+                let p = [px, py, 0]
+ 
+                const a = determinant_3x3([p, V0, V1])/volum_total
+                const b = determinant_3x3([p, V1, V2])/volum_total 
+                const c = determinant_3x3([p, V2, V0])/volum_total
+
+                /*  
+                    Barycentre of 3 points
+
+                    1. aMA + bMB + cMC = (a + b + c)MG
+                    2. zG = (AzA + bzB + czC) / (a + b + c)
+
+                */
+
+                let z = ((a * V0[2]) + (b * V1[2]) + (c * V2[2])) / (a + b + c) 
+
+                
+                p = [px, py, z];
+
     
                 let inside_triangle = true;
 
@@ -40,29 +54,9 @@ export default function edge_function_method(m, colors)
                 inside_triangle &= edge_fn(p, V1, V2);
                 inside_triangle &= edge_fn(p, V2, V0);
 
- 
-                const a = determinant_3x3([p, V0, V1])/volum_total
-                const b = determinant_3x3([p, V1, V2])/volum_total 
-                const c = determinant_3x3([p, V2, V0])/volum_total
 
-                /*  
-                    Barycentre de 3 points
-
-                    1. aMA + bMB + cMC = (a + b + c)MG
-                    2. zG = (AzA + bzB + czC) / (a + b + c)
-
-
-                    But the projection don't preserve Z.. bruh..
-
-                    // A REVOIR
-                */
-
-                const z = ((a * V0[2]) + (b * V1[2]) + (c * V2[2])) / (a + b + c)
-
-              
-                if (inside_triangle) //&& (z < z_buffer))
+                if (inside_triangle)
                 {
-                    z_buffer = z
                     m_out.push([px, py, z, colors[Math.floor(i/6)]]);
                 }
     
@@ -78,10 +72,17 @@ export default function edge_function_method(m, colors)
 
 function edge_fn(p, a, b)
 {
+    /*
+        https://youtu.be/ShTiQGxiZRk
+        https://en.wikipedia.org/wiki/Back-face_culling
+    */
 
-    let deltaP = soustraction(p, a);
-    let deltaBA = soustraction(b, a);
-    let cross = determinant_2x2([deltaBA, deltaP]);
 
-    return cross >= 0
+    const deltaBA = soustraction(b, a)
+    const deltaPA = soustraction(p, a)
+
+    const N = (deltaPA[0] * deltaBA[1]) - (deltaPA[1] * deltaBA[0])
+
+
+    return N < 0
 }

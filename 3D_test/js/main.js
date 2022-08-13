@@ -5,6 +5,7 @@ import edge_function_method from './tools/edge_function.js';
 import drawFunction from './tools/drawFunction.js';
 
 import { cube, colors } from './data/cube.js';
+import { multiply } from './tools/vectors_maths.js';
 
 function main()
 {
@@ -39,15 +40,15 @@ function main()
 
     for (let j = 0; j < cube.length; j++) {
 
-        matrice_transform[j] = math.multiply(matrice_transform[j], MATRIX_ROT_X)
-        matrice_transform[j] = math.multiply(matrice_transform[j], MATRIX_ROT_Y)
-        //matrice_transform[j] = math.multiply(matrice_transform[j], MATRIX_ROT_z)
+        matrice_transform[j] = multiply(matrice_transform[j], MATRIX_ROT_X)
+        matrice_transform[j] = multiply(matrice_transform[j], MATRIX_ROT_Y)
+        matrice_transform[j] = multiply(matrice_transform[j], MATRIX_ROT_z)
     }
 
 
     let projectionMAT = projection(matrice_transform);
 
-    projectionMAT = edge_function_method(projectionMAT, colors);
+    projectionMAT = edge_function_method(projectionMAT, colors, matrice_transform);
 
     drawFunction(projectionMAT);
 
