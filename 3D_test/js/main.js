@@ -1,7 +1,7 @@
 
 import { ctx, HEIGHT, WIDTH } from './tools/constants.js';
 import projection from './tools/projection.js';
-import edge_function_method from './tools/edge_function.js';
+import graphics_pipeline from './tools/edge_function.js';
 import drawFunction from './tools/drawFunction.js';
 
 import { cube, colors } from './data/cube.js';
@@ -53,7 +53,7 @@ function main()
     }
     
 
-    let matrice_totale = edge_function_method(matrice_transform, colors);
+    let matrice_totale = graphics_pipeline(matrice_transform, colors);
 
     // projection à la fin sinon ca casse tous
     matrice_totale = projection(matrice_totale);

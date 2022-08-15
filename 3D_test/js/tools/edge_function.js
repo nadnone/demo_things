@@ -1,6 +1,7 @@
+import { ctx } from './constants.js';
 import { soustraction, determinant_3x3, norme, dot, cross_product, angle_vector } from './vectors_maths.js';
 
-export default function edge_function_method(m, colors) 
+export default function graphics_pipeline(m, colors) 
 {
 
     let m_out = [];
@@ -8,22 +9,9 @@ export default function edge_function_method(m, colors)
     for (let i = 0; i < m.length; i+=3) {
        
 
-        const V0 = m[i + 0]
-        const V1 = m[i + 1]
-        const V2 = m[i + 2]
-        
-
-        // sort points by Y
-
-        let v0, v1, v2;
-
-        v0 = V0[1] < V1[1] ? V0 : V1[1] < V2[1] ? V1 : V2;
-        v2 = V0[1] > V1[1] ? V0 : V1[1] > V2[1] ? V1 : V2;
-
-        if (v0[1] === V0[1] && v2[1] === V2[1]) v1 = V1;
-        else if (v0[1] !== V0[1] && v2[1] === V2[1]) v1 = V0;
-        else v1 = v2;
-
+        let V0 = m[i + 0]
+        let V1 = m[i + 1]
+        let V2 = m[i + 2]
         
 
         /*
@@ -62,18 +50,22 @@ export default function edge_function_method(m, colors)
                     1. aMA + bMB + cMC = (a + b + c)MG
                     2. zG = (AzA + bzB + czC) / (a + b + c)
 
-                const a = determinant_3x3([p, V0, V1])/volum_total
-                const b = determinant_3x3([p, V1, V2])/volum_total 
-                const c = determinant_3x3([p, V2, V0])/volum_total
+                const a = determinant_3x3([p, V0, V1]) - volum_total
+                const b = determinant_3x3([p, V1, V2]) - volum_total 
+                const c = determinant_3x3([p, V2, V0]) - volum_total
 
                 const z = ((a * V0[2]) + (b * V1[2]) + (c * V2[2])) / (a + b + c) 
-
                 */
+
+                
                 
                 /*
                     edge detection pour savoir si le pixel est dans le triangle 
                 */
                 let inside_triangle = true;
+
+    
+
 
                 inside_triangle &= edge_fn(p, V0, V1);
                 inside_triangle &= edge_fn(p, V1, V2);
@@ -102,8 +94,7 @@ function edge_fn(p, a, b)
     const deltaBA = soustraction(b, a)
     const deltaPA = soustraction(p, a)
 
-    const N0 = cross_product(deltaBA, deltaPA)[2];
+    const N = cross_product(deltaBA, deltaPA)[2];
 
-
-    return N0 > 0;
+    return N > 0;
 }
