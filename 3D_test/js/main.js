@@ -30,7 +30,7 @@ function main()
         [0,  1, 0],
         [-sin, 0, cos]
     ];
-    const MATRIX_ROT_z = [
+    const MATRIX_ROT_Z = [
         [cos, -sin, 0],
         [sin, cos, 0],
         [0, 0, 1]
@@ -38,23 +38,41 @@ function main()
 
     let matrice_transform = cube;
 
-    for (let j = 0; j < cube.length; j++) {
+    for (let j = 0; j < cube.length; j+=3) {
 
-        matrice_transform[j] = multiply(matrice_transform[j], MATRIX_ROT_X)
-        matrice_transform[j] = multiply(matrice_transform[j], MATRIX_ROT_Y)
-        matrice_transform[j] = multiply(matrice_transform[j], MATRIX_ROT_z)
+        let buffer = kernel_get(j, matrice_transform);
+
+        buffer = multiply(buffer, MATRIX_ROT_X)
+        buffer = multiply(buffer, MATRIX_ROT_Y)
+        //buffer = multiply(buffer, MATRIX_ROT_Z)
+
+        for (let k = 0; k < 3; k++) {
+            matrice_transform[j+k] = buffer[k]
+        }
+
     }
+    
 
+    let matrice_totale = edge_function_method(matrice_transform, colors);
 
-    let projectionMAT = projection(matrice_transform);
-
-    projectionMAT = edge_function_method(projectionMAT, colors, matrice_transform);
-
-    drawFunction(projectionMAT);
+    // projection à la fin sinon ca casse tous
+    matrice_totale = projection(matrice_totale);
+    drawFunction(matrice_totale);
 
 
 
 }
 
+function kernel_get(cursor, matrice)
+{
+    let m_out = []
+    for (let i = cursor; i < cursor + 3; i++) {
+
+        m_out.push(matrice[i]);
+    }
+
+    return m_out;
+}
+
 //main();
-setInterval(main,);
+setInterval(main, 60);

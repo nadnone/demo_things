@@ -8,16 +8,9 @@ export default function projection(obj)
 
      
 
-        for (let j = 0; j < obj[i].length; j++) {
-
-
-            
-
-
-            let z0 = obj[i][j][2]; // z
-            let x0 = obj[i][j][0]; // x
-            let y0 = obj[i][j][1]; // y
-
+            let x0 = obj[i][0]; // x
+            let y0 = obj[i][1]; // y
+            let z0 = obj[i][2];
 
             /* Formula from here
                 
@@ -32,9 +25,7 @@ export default function projection(obj)
             const z = LAMBDA * z0 - Z_NEAR
 
 
-            projection_buffer.push([x, y, z]);
-
-        
+            projection_buffer.push([x, y, z, obj[i][3]]);
 
 
         }
@@ -42,7 +33,6 @@ export default function projection(obj)
 
 
 
-    }
 
     return projection_buffer;
 }

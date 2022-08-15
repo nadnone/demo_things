@@ -3,28 +3,18 @@ import { ctx } from './misc.js';
 export default function edge_function_method(m) {
 
 
-    let min_x = Infinity;
-    let min_y = Infinity;
-
-    let max_x = -Infinity;
-    let max_y = -Infinity;
-
         
     const V0 = m[0]
     const V1 = m[1]
     const V2 = m[2]
 
-    min_x = V0.x < V1.x ? V0.x : V1.x;
-    min_x = min_x < V2.x ? min_x : V2.x;
+    // to check less pixels
+    const min_x = Math.min(V0.x, V1.x, V2.x);
+    const min_y = Math.min(V0.y, V1.y, V2.y);
 
-    min_y = V0.y < V1.y ? V0.y : V1.y;
-    min_y = min_y < V2.y ? min_y : V2.y;
-
-    max_x = V0.x > V1.x ? V0.x : V1.x;
-    max_x = max_x > V2.x ? max_x : V2.x;
-
-    max_y = V0.y > V1.y ? V0.y : V1.y;
-    max_y = max_y > V2.y ? max_y : V2.y;
+    const max_x = Math.max(V0.x, V1.x, V2.x);
+    const max_y = Math.max(V0.y, V1.y, V2.y);
+    
 
 
     for (let px = min_x; px <= max_x; px++) {
