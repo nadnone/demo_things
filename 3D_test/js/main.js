@@ -10,7 +10,6 @@ import { multiply } from './tools/vectors_maths.js';
 function main()
 {
 
-
     ctx.clearRect(0,0, WIDTH, HEIGHT);
 
     // rotation
@@ -53,11 +52,10 @@ function main()
     }
     
 
-    let matrice_totale = graphics_pipeline(matrice_transform, colors);
+    let matrice_totale = projection(matrice_transform);
 
-    // projection à la fin sinon ca casse tous
-    matrice_totale = projection(matrice_totale);
-    drawFunction(matrice_totale);
+    graphics_pipeline(matrice_totale, colors);
+
 
 
 

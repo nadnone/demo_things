@@ -22,7 +22,7 @@ export default function projection(obj)
 
             const x = APSECT_RATIO * F * x0
             const y = F * y0
-            const z = LAMBDA * z0 - Z_NEAR
+            const z = LAMBDA * (z0 - Z_NEAR)
 
 
             projection_buffer.push([x, y, z, obj[i][3]]);

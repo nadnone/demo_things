@@ -1,10 +1,9 @@
-import { ctx } from './constants.js';
+import { ctx, HALF_HEIGHT, HALF_WIDTH } from './constants.js';
+import drawFunction from './drawFunction.js';
 import { soustraction, determinant_3x3, norme, angle_vector, produit_vectoriel, produit_scalair} from './vectors_maths.js';
 
 export default function graphics_pipeline(m, colors) 
 {
-
-    let m_out = [];
 
     for (let i = 0; i < m.length; i+=3) {
        
@@ -26,7 +25,7 @@ export default function graphics_pipeline(m, colors)
         
 
         // to check less pixels
-        const min_x = Math.min(V0[0], V1[0], V2[2]);
+        const min_x = Math.min(V0[0], V1[0], V2[0]);
         const min_y = Math.min(V0[1], V1[1], V2[1]);
  
         const max_x = Math.max(V0[0], V1[0], V2[0]);
@@ -38,14 +37,13 @@ export default function graphics_pipeline(m, colors)
             for (let py = min_y; py <= max_y; py++) 
             {
     
-                let p = [px, py, 1]
+                let p = [px, py]
  
    
                 // edge detection pour savoir si le pixel est dans le triangle 
                 if (isPointInTriangle(p, V0, V1, V2))
                 {
-
-                    m_out.push([px, py, 0, colors[i]]);
+                    drawFunction(px + HALF_WIDTH, py + HALF_HEIGHT, colors[i])
                 }
                     
             }
@@ -54,7 +52,6 @@ export default function graphics_pipeline(m, colors)
 
     }
 
-    return m_out;
 }
 
 function isPointInTriangle(p, a, b, c)
@@ -67,8 +64,7 @@ function isInside(a, b, c)
 {
     // A REVOIR
 
-    // soustraction + produit scalair
-    
+
     return (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]) >= 0
 
     // solution ici
