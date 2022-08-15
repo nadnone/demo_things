@@ -4,7 +4,7 @@ function norme(a) {
     return Math.sqrt( a[0]**2 + a[1]**2 + a[2]**2 )
 }
 
-function scalar_product(a, factor)
+function scalair(a, factor)
 {
     let r = [];
 
@@ -14,19 +14,20 @@ function scalar_product(a, factor)
 
     return r
 }
-function dot(a, b)
+function produit_scalair(a, b)
 {
     return (a[0] * b[0]) + (a[1] * b[1]) + (a[2] * b[2])
 }
 
 
+
 function angle_vector(a, b)
 {
-    return dot(a, b) / (norme(a) * norme(b))
+    return produit_scalair(a, b) / (norme(a) * norme(b))
 }
 
 
-function cross_product(a, b)
+function produit_vectoriel(a, b)
 {
     let v = [];
 
@@ -111,6 +112,16 @@ function soustraction(a,b)
     return v;
 }
 
+function soustraction_2d(a,b)
+{
+    let v = [];
+
+    v[0] = a[0] - b[0];
+    v[1] = a[1] - b[1];
+
+    return v;
+}
+
 function multiply(a, b)
 {
  
@@ -134,4 +145,4 @@ function multiply(a, b)
     return m
 }
 
-export { multiply, determinant_4x4, soustraction,scalar_product,determinant_3x3, addition, dot, cross_product, norme, angle_vector}
+export { multiply,soustraction_2d, determinant_4x4, soustraction, scalair,determinant_3x3, addition, produit_scalair, produit_vectoriel, norme, angle_vector}
