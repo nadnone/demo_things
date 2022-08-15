@@ -1,7 +1,7 @@
 
 import { ctx, HEIGHT, WIDTH } from './tools/constants.js';
 import projection from './tools/projection.js';
-import graphics_pipeline from './tools/edge_function.js';
+import graphics_pipeline from './tools/graphics_pipeline.js';
 import drawFunction from './tools/drawFunction.js';
 
 import { cube, colors } from './data/cube.js';
