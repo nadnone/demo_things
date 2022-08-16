@@ -60,20 +60,20 @@ let colors = [
     "#ff0000", "#ff0000", "#ff0000",
     "#ff0000", "#ff0000", "#ff0000",
 
-    "#00ff00", "#00ff00", "#00ff00", // bleu foncé
-    "#00ff00", "#00ff00", "#00ff00", // arrière ou avant
+    "#00ff00", "#00ff00", "#00ff00", 
+    "#00ff00", "#00ff00", "#00ff00", 
 
-    "#0000ff", "#0000ff", "#0000ff", // Vert
-    "#0000ff", "#0000ff", "#0000ff", // haut ou bas
+    "#0000ff", "#0000ff", "#0000ff", 
+    "#0000ff", "#0000ff", "#0000ff", 
     
-    "#ffff00", "#ffff00", "#ffff00", // violet
-    "#ffff00", "#ffff00", "#ffff00", // haut ou bas
+    "#ffff00", "#ffff00", "#ffff00",
+    "#ffff00", "#ffff00", "#ffff00", 
     
-    "#00ffff", "#00ffff", "#00ffff", // maron
-    "#00ffff", "#00ffff", "#00ffff", // côté
+    "#00ffff", "#00ffff", "#00ffff", 
+    "#00ffff", "#00ffff", "#00ffff", 
     
-    "#ff00ff", "#ff00ff", "#ff00ff", // gris
-    "#ff00ff", "#ff00ff", "#ff00ff", // côté
+    "#ff00ff", "#ff00ff", "#ff00ff", 
+    "#ff00ff", "#ff00ff", "#ff00ff", 
 
 ];
 

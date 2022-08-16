@@ -1,4 +1,4 @@
-import { APSECT_RATIO, F, LAMBDA, Z_NEAR } from './constants.js';
+import { APSECT_RATIO, F, HALF_HEIGHT, HALF_WIDTH, LAMBDA, Z_NEAR } from './constants.js';
 
 export default function projection(obj)
 {

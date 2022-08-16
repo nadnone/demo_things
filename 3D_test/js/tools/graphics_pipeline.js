@@ -1,9 +1,9 @@
-import { ctx, HALF_HEIGHT, HALF_WIDTH } from './constants.js';
-import drawFunction from './drawFunction.js';
-import { soustraction, produit_vectoriel, produit_scalair, scalair} from './vectors_maths.js';
+import isTriangleInBack from "./backface_test.js";
 
 export default function graphics_pipeline(m, colors, angle) 
 {
+
+    let m_out = [];
 
     for (let i = 0; i < m.length; i+=3) {
     
@@ -34,9 +34,9 @@ export default function graphics_pipeline(m, colors, angle)
                 
 
                 // edge detection pour savoir si le pixel est dans le triangle 
-                if (isPointInTriangle(p, V0, V1, V2))
+                if (isPointInTriangle(p, V0, V1, V2)) //&& isTriangleInBack(V0, V1, V2))
                 {
-                    drawFunction(px + HALF_WIDTH, py + HALF_HEIGHT, colors[i])
+                    m_out.push([px, py, V0[2], colors[i]])
                 }
             }
         }
@@ -44,30 +44,9 @@ export default function graphics_pipeline(m, colors, angle)
 
     }
 
+    return m_out;
 }
 
-function IsBehind(a,b,c)
-{
-    return backface_culling(a,b,c)
-}
-
-function backface_culling(a,b,c)
-{
-    // https://en.wikipedia.org/wiki/Back-face_culling
-
-    // A REVOIR
-
-    let delta_AB = soustraction(b,a)
-    let delta_AC = soustraction(c,a)
-
-    const N = produit_vectoriel(delta_AB, delta_AC)
-
-    let view = scalair(a, -1)
-
-    let calc0 = produit_scalair(view, N) >= 0
-
-    return calc0 
-}
 
 function isPointInTriangle(p, a, b, c)
 {

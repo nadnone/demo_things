@@ -4,6 +4,11 @@ function norme(a) {
     return Math.sqrt( a[0]**2 + a[1]**2 + a[2]**2 )
 }
 
+function normaliser(a)
+{
+    return scalair(a, 1/norme(a));
+}
+
 function scalair(a, factor)
 {
     let r = [];
@@ -145,4 +150,14 @@ function multiply(a, b)
     return m
 }
 
-export { multiply,soustraction_2d, determinant_4x4, soustraction, scalair,determinant_3x3, addition, produit_scalair, produit_vectoriel, norme, angle_vector}
+export { multiply,
+        soustraction_2d, 
+        normaliser,
+        determinant_4x4,
+        soustraction, 
+        scalair,determinant_3x3,
+        addition, produit_scalair, 
+        produit_vectoriel, 
+        norme, 
+        angle_vector
+    }

@@ -7,7 +7,6 @@ import drawFunction from './tools/drawFunction.js';
 import { cube, colors } from './data/cube.js';
 import { multiply } from './tools/vectors_maths.js';
 
-
 let i = 0;
 
 function loop()
@@ -55,10 +54,13 @@ function loop()
     
         }
         
-    
-        const matrice_totale = projection(matrice_transform);
-        graphics_pipeline(matrice_totale, colors);
 
+
+        const matrice_drawed = graphics_pipeline(matrice_transform, colors);
+
+        const matrice_perspective = projection(matrice_drawed);
+        
+        drawFunction(matrice_perspective);
         
 
         i += 2
@@ -71,6 +73,7 @@ function loop()
     
 
 }
+
 
 function kernel_get(cursor, matrice)
 {
