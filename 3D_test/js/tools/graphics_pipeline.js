@@ -1,4 +1,5 @@
 import isTriangleInBack from "./backface_test.js";
+import { produit_scalair, produit_vectoriel, scalair, soustraction } from "./vectors_maths.js";
 
 export default function graphics_pipeline(m, colors, angle) 
 {
@@ -11,9 +12,9 @@ export default function graphics_pipeline(m, colors, angle)
         const V1 = m[i + 1]
         const V2 = m[i + 2]
         
-
-        // if triangle is behind the projection view
-        //if (!IsBehind(V0, V1, V2)) continue
+        /* backface check */
+        //let backtest = produit_scalair( produit_vectoriel( soustraction(V1, V0), soustraction(V2, V0) ), scalair(V0, -10) );
+        //if (backtest < 0) continue;
 
 
         // to check less pixels
