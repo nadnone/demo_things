@@ -9,7 +9,7 @@ import { multiply } from './tools/vectors_maths.js';
 
 let i = 0;
 
-function loop()
+async function loop()
 {
 
         ctx.clearRect(0,0, WIDTH, HEIGHT);
@@ -56,7 +56,7 @@ function loop()
         
 
 
-        const matrice_drawed = graphics_pipeline(matrice_transform, colors);
+        const matrice_drawed = await graphics_pipeline(matrice_transform, colors);
 
         const matrice_perspective = projection(matrice_drawed);
         

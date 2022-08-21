@@ -1,7 +1,7 @@
 import isTriangleInBack from "./backface_test.js";
 import { produit_scalair, produit_vectoriel, scalair, soustraction } from "./vectors_maths.js";
 
-export default function graphics_pipeline(m, colors, angle) 
+export default async function graphics_pipeline(m, colors, angle) 
 {
 
     let m_out = [];
