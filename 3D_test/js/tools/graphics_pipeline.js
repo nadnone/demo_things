@@ -1,6 +1,3 @@
-import isTriangleInBack from "./backface_test.js";
-import { produit_scalair, produit_vectoriel, scalair, soustraction } from "./vectors_maths.js";
-
 export default async function graphics_pipeline(m, colors, angle) 
 {
 
@@ -12,11 +9,6 @@ export default async function graphics_pipeline(m, colors, angle)
         const V1 = m[i + 1]
         const V2 = m[i + 2]
         
-        /* backface check */
-        //let backtest = produit_scalair( produit_vectoriel( soustraction(V1, V0), soustraction(V2, V0) ), scalair(V0, -10) );
-        //if (backtest < 0) continue;
-
-
         // to check less pixels
         const min_x = Math.min(V0[0], V1[0], V2[0]);
         const min_y = Math.min(V0[1], V1[1], V2[1]);
@@ -35,7 +27,7 @@ export default async function graphics_pipeline(m, colors, angle)
                 
 
                 // edge detection pour savoir si le pixel est dans le triangle 
-                if (isPointInTriangle(p, V0, V1, V2)) //&& isTriangleInBack(V0, V1, V2))
+                if (isPointInTriangle(p, V0, V1, V2))
                 {
                     m_out.push([px, py, V0[2], colors[i]])
                 }

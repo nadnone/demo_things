@@ -1,6 +1,5 @@
 
 import { ctx, HEIGHT, WIDTH } from './tools/constants.js';
-import projection from './tools/projection.js';
 import graphics_pipeline from './tools/graphics_pipeline.js';
 import drawFunction from './tools/drawFunction.js';
 
@@ -55,12 +54,9 @@ async function loop()
         }
         
 
-
         const matrice_drawed = await graphics_pipeline(matrice_transform, colors);
 
-        const matrice_perspective = projection(matrice_drawed);
-        
-        drawFunction(matrice_perspective);
+        drawFunction(matrice_drawed);
         
 
         i += 2
