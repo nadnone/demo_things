@@ -59,7 +59,7 @@ async function loop()
         drawFunction(matrice_drawed);
         
 
-        i += 2
+        i += 4
 
         matrice_transform = cube;
 
@@ -83,4 +83,4 @@ function kernel_get(cursor, matrice)
 }
 
 
-setInterval(loop, 60);
+setInterval(loop, 100);
