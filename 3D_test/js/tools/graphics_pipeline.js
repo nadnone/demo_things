@@ -1,4 +1,6 @@
-export default async function graphics_pipeline(m, colors, angle) 
+import drawFunction from "./drawFunction.js";
+
+export default async function graphics_pipeline(m, colors) 
 {
 
     let m_out = [];
@@ -29,7 +31,7 @@ export default async function graphics_pipeline(m, colors, angle)
                 // edge detection pour savoir si le pixel est dans le triangle 
                 if (isPointInTriangle(p, V0, V1, V2))
                 {
-                    m_out.push([px, py, V0[2], colors[i]])
+                    drawFunction(px, py, colors[i])
                 }
             }
         }

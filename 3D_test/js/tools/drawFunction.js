@@ -1,19 +1,12 @@
 import { ctx, HALF_HEIGHT, HALF_WIDTH } from "./constants.js";
 
-export default function drawFunction(matrice)
+export default async function drawFunction(m_py, m_px, color)
 {
+        const px = m_px + HALF_WIDTH;
+        const py = m_py + HALF_HEIGHT;
 
-
-        for (let i = 0; i < matrice.length; i++) {
-                
-                const px = matrice[i][0] + HALF_WIDTH;
-                const py = matrice[i][1] + HALF_HEIGHT;
-                const color = matrice[i][3]
-
-                ctx.beginPath();
-                ctx.fillStyle = color
-                ctx.fillRect(px, py, 1, 1);
-                ctx.closePath();
-        }
-       
+        ctx.beginPath();
+        ctx.fillStyle = color
+        ctx.fillRect(px, py, 1, 1);
+        ctx.closePath();
 }

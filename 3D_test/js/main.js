@@ -1,7 +1,6 @@
 
 import { ctx, HEIGHT, WIDTH } from './tools/constants.js';
 import graphics_pipeline from './tools/graphics_pipeline.js';
-import drawFunction from './tools/drawFunction.js';
 
 import { cube, colors } from './data/cube.js';
 import { multiply } from './tools/vectors_maths.js';
@@ -54,17 +53,9 @@ async function loop()
         }
         
 
-        const matrice_drawed = await graphics_pipeline(matrice_transform, colors);
+        graphics_pipeline(matrice_transform, colors);
 
-        drawFunction(matrice_drawed);
-        
-
-        i += 4
-
-        matrice_transform = cube;
-
-
-
+        i += 1
 
     
 
@@ -83,4 +74,4 @@ function kernel_get(cursor, matrice)
 }
 
 
-setInterval(loop, 100);
+setInterval(loop, 200);
