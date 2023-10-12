@@ -4,6 +4,7 @@ import graphics_pipeline from './tools/graphics_pipeline.js';
 
 import { cube, colors } from './data/cube.js';
 import { multiply } from './tools/vectors_maths.js';
+import { text_printf } from './tools/drawFunction.js';
 
 let i = 0;
 
@@ -51,15 +52,21 @@ async function loop()
             }
     
         }
-        
-
+ 
         graphics_pipeline(matrice_transform, colors);
 
-        i += 1
+        //i = 90
+        i += 4;
 
-    
+
+
+        text_printf("[!] Backface culling à revoir", 300, -150, "#ff0000", 32);
+        text_printf("Dernière modification: 13/10/2023 ~12pm CEST", 350, -150, "#ffffff", 32);
+
 
 }
+
+ 
 
 
 function kernel_get(cursor, matrice)
@@ -74,4 +81,4 @@ function kernel_get(cursor, matrice)
 }
 
 
-setInterval(loop, 200);
+setInterval(loop, 100);

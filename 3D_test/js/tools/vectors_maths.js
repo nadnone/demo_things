@@ -6,10 +6,10 @@ function norme(a) {
 
 function normaliser(a)
 {
-    return scalair(a, 1/norme(a));
+    return mult_scalair(a, 1/norme(a));
 }
 
-function scalair(a, factor)
+function mult_scalair(a, factor)
 {
     let r = [];
 
@@ -150,12 +150,14 @@ function multiply(a, b)
     return m
 }
 
+
 export { multiply,
         soustraction_2d, 
         normaliser,
         determinant_4x4,
         soustraction, 
-        scalair,determinant_3x3,
+        mult_scalair,
+        determinant_3x3,
         addition, produit_scalair, 
         produit_vectoriel, 
         norme, 
