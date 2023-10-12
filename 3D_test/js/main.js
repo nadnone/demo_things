@@ -61,7 +61,7 @@ async function loop()
 
 
         text_printf("[!] Backface culling à revoir", 300, -150, "#ff0000", 32);
-        text_printf("Dernière modification: 13/10/2023 ~12pm CEST", 350, -150, "#ffffff", 32);
+        text_printf("Dernière modification: 13/10/2023 ~2am CEST", 350, -150, "#ffffff", 32);
 
 
 }

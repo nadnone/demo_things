@@ -15,7 +15,7 @@ export default async function graphics_pipeline(m, colors)
         /* backface culling test
             https://hackmd.io/@HueyNemud/rkAa0jYFw
 
-            // TODO A REVOIR
+            // TODO A REVOIR ( revoir les vertices du cube )
         */ 
 
         const normal = produit_vectoriel(soustraction(V2, V1), soustraction(V1, V0));
