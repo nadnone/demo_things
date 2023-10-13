@@ -1,5 +1,5 @@
-import drawFunction from "./drawFunction.js";
-import { produit_scalair, produit_vectoriel, soustraction, normaliser, mult_scalair, addition, angle_vector } from "./vectors_maths.js";
+import drawFunction, { text_printf } from "./drawFunction.js";
+import { norme } from "./vectors_maths.js";
 
 export default async function graphics_pipeline(m, colors) 
 {
@@ -12,20 +12,7 @@ export default async function graphics_pipeline(m, colors)
         const V1 = m[i + 1]
         const V2 = m[i + 2]
     
-        /* backface culling test
-            https://hackmd.io/@HueyNemud/rkAa0jYFw
-
-            // TODO A REVOIR ( revoir les vertices du cube )
-        */ 
-
-        const normal = produit_vectoriel(soustraction(V1, V0), soustraction(V2, V0));
-
-        const backface_check = produit_scalair([0, 0, 1], normaliser(normal));
-
-        if (backface_check >= 0)
-        {
-            //continue;
-        }
+        
 
         // to check less pixels
         const min_x = Math.min(V0[0], V1[0], V2[0]);
@@ -34,16 +21,24 @@ export default async function graphics_pipeline(m, colors)
         const max_x = Math.max(V0[0], V1[0], V2[0]);
         const max_y = Math.max(V0[1], V1[1], V2[1]);
 
+        const min_z = Math.min(V0[2], V1[2], V2[2]);
+        const max_z = Math.max(V0[2], V1[2], V2[2]);
+
+
+
+        // profondeur du barycentre du triangle
+        const barycentre_z = (V0[2] + V1[2] + V2[2]) / (norme(V0) + norme(V1) + norme(V2))
+
+        if (barycentre_z < 0)
+        {
+            //continue;
+        }
 
         for (let px = min_x; px <= max_x; px++) 
         {
-    
             for (let py = min_y; py <= max_y; py++) 
             {
-    
                 const p = [px, py]
-
-                
 
                 // edge detection pour savoir si le pixel est dans le triangle 
                 if (isPointInTriangle(p, V0, V1, V2))
@@ -52,6 +47,7 @@ export default async function graphics_pipeline(m, colors)
                 }
             }
         }
+
     }
 
 
@@ -76,6 +72,7 @@ function isPointInTriangle(p, a, b, c)
 function isInside(a, b, p)
 {
 
+    // Vec_ap cross Vec_bp 
     return (a[0] - p[0]) * (b[1] - p[1]) - (a[1] - p[1]) * (b[0] - p[0])
 
     // solution ici

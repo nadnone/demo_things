@@ -4,6 +4,11 @@ function norme(a) {
     return Math.sqrt( a[0]**2 + a[1]**2 + a[2]**2 )
 }
 
+function norme_2d(a) {
+    
+    return Math.sqrt( a[0]**2 + a[1]**2 )
+}
+
 function normaliser(a)
 {
     return mult_scalair(a, 1/norme(a));
@@ -151,6 +156,7 @@ function multiply(a, b)
 }
 
 
+
 export { multiply,
         soustraction_2d, 
         normaliser,
@@ -161,5 +167,6 @@ export { multiply,
         addition, produit_scalair, 
         produit_vectoriel, 
         norme, 
-        angle_vector
+        angle_vector,
+        norme_2d
     }

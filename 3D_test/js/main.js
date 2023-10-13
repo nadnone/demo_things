@@ -6,7 +6,7 @@ import { cube, colors } from './data/cube.js';
 import { multiply } from './tools/vectors_maths.js';
 import { text_printf } from './tools/drawFunction.js';
 
-let i = 0;
+let i = 45;
 
 async function loop()
 {
@@ -44,8 +44,8 @@ async function loop()
     
             let buffer = kernel_get(j, cube);
     
-            buffer = multiply(buffer, MATRIX_ROT_X)
             buffer = multiply(buffer, MATRIX_ROT_Y)
+            buffer = multiply(buffer, MATRIX_ROT_X)
             //buffer = multiply(buffer, MATRIX_ROT_Z)
     
             for (let k = 0; k < 3; k++) {
@@ -62,8 +62,8 @@ async function loop()
 
 
 
-        text_printf("[!] Backface culling à revoir", 300, -150, "#ff0000", 32);
-        text_printf("Dernière modification: 13/10/2023 ~2pm CEST", 350, -150, "#ffffff", 32);
+        text_printf("[!] TODO: Comprendre l'interpolation pour trouver pZ", 300, -400, "#ff0000", 32);
+        text_printf("Dernière modification: 13/10/2023 ~22h CEST", 350, -400, "#ffffff", 32);
 
 
 }
@@ -83,4 +83,5 @@ function kernel_get(cursor, matrice)
 }
 
 
+//loop()
 setInterval(loop, 100);
