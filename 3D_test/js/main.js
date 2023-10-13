@@ -26,6 +26,7 @@ async function loop()
             [0, cos, -sin],
             [0, sin, cos]
         ];
+
         const MATRIX_ROT_Y = [
             [cos, 0, sin],
             [0,  1, 0],
@@ -45,7 +46,7 @@ async function loop()
     
             buffer = multiply(buffer, MATRIX_ROT_X)
             buffer = multiply(buffer, MATRIX_ROT_Y)
-            buffer = multiply(buffer, MATRIX_ROT_Z)
+            //buffer = multiply(buffer, MATRIX_ROT_Z)
     
             for (let k = 0; k < 3; k++) {
                 matrice_transform[j+k] = buffer[k]
@@ -55,13 +56,14 @@ async function loop()
  
         graphics_pipeline(matrice_transform, colors);
 
-        //i = 90
+        //i = 45
         i += 4;
+        i %= 380;
 
 
 
         text_printf("[!] Backface culling à revoir", 300, -150, "#ff0000", 32);
-        text_printf("Dernière modification: 13/10/2023 ~2am CEST", 350, -150, "#ffffff", 32);
+        text_printf("Dernière modification: 13/10/2023 ~2pm CEST", 350, -150, "#ffffff", 32);
 
 
 }

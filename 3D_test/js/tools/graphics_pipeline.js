@@ -1,5 +1,5 @@
 import drawFunction from "./drawFunction.js";
-import { produit_scalair, produit_vectoriel, soustraction, normaliser } from "./vectors_maths.js";
+import { produit_scalair, produit_vectoriel, soustraction, normaliser, mult_scalair, addition, angle_vector } from "./vectors_maths.js";
 
 export default async function graphics_pipeline(m, colors) 
 {
@@ -18,9 +18,9 @@ export default async function graphics_pipeline(m, colors)
             // TODO A REVOIR ( revoir les vertices du cube )
         */ 
 
-        const normal = produit_vectoriel(soustraction(V2, V1), soustraction(V1, V0));
-        const cam_vec = [0, 0, 1];
-        const backface_check = produit_scalair(cam_vec, normaliser(normal));
+        const normal = produit_vectoriel(soustraction(V1, V0), soustraction(V2, V0));
+
+        const backface_check = produit_scalair([0, 0, 1], normaliser(normal));
 
         if (backface_check >= 0)
         {
@@ -62,7 +62,6 @@ export default async function graphics_pipeline(m, colors)
 function isPointInTriangle(p, a, b, c)
 {
     // on teste tous les côtés positifs et négatifs
-
     let check = isInside(c,a, p) > 0
     check &= isInside(a,b, p) > 0
     check &= isInside(b,c, p) > 0
@@ -71,7 +70,7 @@ function isPointInTriangle(p, a, b, c)
     check1 &= isInside(a,b, p) < 0
     check1 &= isInside(b,c, p) < 0
 
-    return check | check1;
+    return check1 | check
 }
 
 function isInside(a, b, p)
