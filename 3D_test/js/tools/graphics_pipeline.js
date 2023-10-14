@@ -1,10 +1,12 @@
-import drawFunction, { text_printf } from "./drawFunction.js";
-import { norme } from "./vectors_maths.js";
+import drawFunction from "./drawFunction.js";
+import { addition, mult_scalair, normaliser, norme, produit_scalair, produit_vectoriel, soustraction } from "./vectors_maths.js";
 
 export default async function graphics_pipeline(m, colors) 
 {
 
     let m_out = [];
+
+    let zbuffer = -Infinity;
 
     for (let i = 0; i < m.length; i += 3) {
     
@@ -29,24 +31,49 @@ export default async function graphics_pipeline(m, colors)
         // profondeur du barycentre du triangle
         const barycentre_z = (V0[2] + V1[2] + V2[2]) / (norme(V0) + norme(V1) + norme(V2))
 
+        /*
         if (barycentre_z < 0)
         {
             //continue;
         }
+        */
 
         for (let px = min_x; px <= max_x; px++) 
         {
             for (let py = min_y; py <= max_y; py++) 
             {
-                const p = [px, py]
+
+
+                // formula:
+                // https://en.wikipedia.org/wiki/Barycentric_coordinate_system
+
+
+                // weights
+                let w0 = (V1[1] - V2[1]) * (px - V2[0]) + (V2[0] - V1[0]) * (py - V2[1]);
+                w0 /= (V1[1] - V2[1]) * (V0[0] - V1[0]) + (V2[0] - V1[0]) * (V0[1] - V2[1]); // Det. de T
+
+                let w1 = (V2[1] - V0[1]) * (px - V2[0]) + (V0[0] - V2[0]) * (py - V2[1]);
+                w1 /= (V1[1] - V2[1]) * (V0[0] - V1[0]) + (V2[0] - V1[0]) * (V0[1] - V2[1]); // Det. de T
+
+                const w2 = 1 - w0 - w1;
+                
+                const wA = mult_scalair(V0, w0);
+                const wB = mult_scalair(V1, w1);
+                const wC = mult_scalair(V2, w2);
+
+                const p = addition( addition(wA, wB), wC);
+                //const p = [px, py]
 
                 // edge detection pour savoir si le pixel est dans le triangle 
-                if (isPointInTriangle(p, V0, V1, V2))
+                if (isPointInTriangle([px, py], V0, V1, V2)) //&& p[2] < 0)
                 {
+                    
                     drawFunction(px, py, colors[i])
                 }
+                
             }
         }
+
 
     }
 

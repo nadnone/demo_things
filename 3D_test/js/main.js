@@ -62,8 +62,8 @@ async function loop()
 
 
 
-        text_printf("[!] TODO: Comprendre l'interpolation pour trouver pZ", 300, -400, "#ff0000", 32);
-        text_printf("Dernière modification: 13/10/2023 ~22h CEST", 350, -400, "#ffffff", 32);
+        text_printf("[!] TODO: Utiliser pZ pour cacher les backface pixels", 300, -400, "#ff0000", 32);
+        text_printf("Dernière modification: 15/10/2023 ~1h CEST", 350, -400, "#ffffff", 32);
 
 
 }

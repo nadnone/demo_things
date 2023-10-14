@@ -49,7 +49,6 @@ function produit_vectoriel(a, b)
     return v;
 }
 
-
 function determinant_3x3(m)
 {
 
@@ -168,5 +167,5 @@ export { multiply,
         produit_vectoriel, 
         norme, 
         angle_vector,
-        norme_2d
+        norme_2d,
     }
