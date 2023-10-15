@@ -1,5 +1,5 @@
 import drawFunction from "./drawFunction.js";
-import { addition, angle_vector, mult_scalair, normaliser, norme, produit_scalair, produit_vectoriel, soustraction } from "./vectors_maths.js";
+import { angle_vector, produit_vectoriel, soustraction } from "./vectors_maths.js";
 
 export default async function graphics_pipeline(m, colors) 
 {
@@ -31,6 +31,9 @@ export default async function graphics_pipeline(m, colors)
         // calcul de l'angle pour savoir si la face doit être affiché
         if (angle >= Math.PI/2) continue;
 
+        // couleur de la face
+        const indexcolor = parseInt(i / 6);
+
         for (let px = min_x; px <= max_x; px++) 
         {
             for (let py = min_y; py <= max_y; py++) 
@@ -39,8 +42,7 @@ export default async function graphics_pipeline(m, colors)
                 // edge detection pour savoir si le pixel est dans le triangle 
                 if (isPointInTriangle([px, py], V0, V1, V2))
                 {
-                                        
-                    drawFunction(px, py, colors[i])
+                    drawFunction(px, py, colors[indexcolor])
                 }
                 
             }

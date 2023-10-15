@@ -46,7 +46,7 @@ async function loop()
     
             buffer = multiply(buffer, MATRIX_ROT_Y)
             buffer = multiply(buffer, MATRIX_ROT_X)
-            //buffer = multiply(buffer, MATRIX_ROT_Z)
+            buffer = multiply(buffer, MATRIX_ROT_Z)
     
             for (let k = 0; k < 3; k++) {
                 matrice_transform[j+k] = buffer[k]
@@ -58,12 +58,11 @@ async function loop()
 
         //i = 45
         i += 4;
-        i %= 380;
+        i %= 360;
 
 
 
-        text_printf("[!] Backface culling success !! :D", 300, -400, "#00ff00", 32);
-        text_printf("Dernière modification: 15/10/2023 ~15h CEST", 350, -400, "#ffffff", 32);
+        text_printf("Dernière modification: 15/10/2023 ~23h CEST", 350, -400, "#ffffff", 32);
 
 
 }

@@ -70,29 +70,22 @@ const cube = [
 ];
 const colors = [
     // rouge
-    "#ff0000", "#ff0000", "#ff0000",
-    "#ff0000", "#ff0000", "#ff0000",
+    "#ff0000",
 
     // vert
-    "#00ff00", "#00ff00", "#00ff00",
-    "#00ff00", "#00ff00", "#00ff00",
+    "#00ff00",
 
     // bleu foncé
-    "#0000ff", "#0000ff", "#0000ff",
-    "#0000ff", "#0000ff", "#0000ff",
+    "#0000ff",
 
     //jaune
-    "#ffff00", "#ffff00", "#ffff00",
-    "#ffff00", "#ffff00", "#ffff00",
+    "#ffff00", 
 
     // bleu ciel
-    "#00ffff", "#00ffff", "#00ffff",
-    "#00ffff", "#00ffff", "#00ffff",
+    "#00ffff",
 
     // violet
-    "#ff00ff", "#ff00ff", "#ff00ff",
-    "#ff00ff", "#ff00ff", "#ff00ff",
-
+    "#ff00ff",
 
 ];
 
