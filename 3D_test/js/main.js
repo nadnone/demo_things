@@ -62,8 +62,8 @@ async function loop()
 
 
 
-        text_printf("[!] TODO: Utiliser pZ pour cacher les backface pixels", 300, -400, "#ff0000", 32);
-        text_printf("Dernière modification: 15/10/2023 ~1h CEST", 350, -400, "#ffffff", 32);
+        text_printf("[!] Backface culling success !! :D", 300, -400, "#00ff00", 32);
+        text_printf("Dernière modification: 15/10/2023 ~15h CEST", 350, -400, "#ffffff", 32);
 
 
 }

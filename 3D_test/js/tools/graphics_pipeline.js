@@ -1,19 +1,16 @@
 import drawFunction from "./drawFunction.js";
-import { addition, mult_scalair, normaliser, norme, produit_scalair, produit_vectoriel, soustraction } from "./vectors_maths.js";
+import { addition, angle_vector, mult_scalair, normaliser, norme, produit_scalair, produit_vectoriel, soustraction } from "./vectors_maths.js";
 
 export default async function graphics_pipeline(m, colors) 
 {
 
     let m_out = [];
 
-    let zbuffer = -Infinity;
-
     for (let i = 0; i < m.length; i += 3) {
     
         const V0 = m[i + 0]
         const V1 = m[i + 1]
         const V2 = m[i + 2]
-    
         
 
         // to check less pixels
@@ -23,51 +20,26 @@ export default async function graphics_pipeline(m, colors)
         const max_x = Math.max(V0[0], V1[0], V2[0]);
         const max_y = Math.max(V0[1], V1[1], V2[1]);
 
-        const min_z = Math.min(V0[2], V1[2], V2[2]);
-        const max_z = Math.max(V0[2], V1[2], V2[2]);
 
 
+        // Pixel backface culling
+        // https://hackmd.io/@HueyNemud/rkAa0jYFw
+        const normale = produit_vectoriel(soustraction(V0, V1), soustraction(V0, V2));
+        const vec_cam = soustraction([0,0, -400], V0); // position caméra - pixel (from - to)
+        const angle = angle_vector(normale, vec_cam); // angle entre la caméra et la sub-face
 
-        // profondeur du barycentre du triangle
-        const barycentre_z = (V0[2] + V1[2] + V2[2]) / (norme(V0) + norme(V1) + norme(V2))
-
-        /*
-        if (barycentre_z < 0)
-        {
-            //continue;
-        }
-        */
+        // calcul de l'angle pour savoir si la face doit être affiché
+        if (angle >= Math.PI/2) continue;
 
         for (let px = min_x; px <= max_x; px++) 
         {
             for (let py = min_y; py <= max_y; py++) 
             {
 
-
-                // formula:
-                // https://en.wikipedia.org/wiki/Barycentric_coordinate_system
-
-
-                // weights
-                let w0 = (V1[1] - V2[1]) * (px - V2[0]) + (V2[0] - V1[0]) * (py - V2[1]);
-                w0 /= (V1[1] - V2[1]) * (V0[0] - V1[0]) + (V2[0] - V1[0]) * (V0[1] - V2[1]); // Det. de T
-
-                let w1 = (V2[1] - V0[1]) * (px - V2[0]) + (V0[0] - V2[0]) * (py - V2[1]);
-                w1 /= (V1[1] - V2[1]) * (V0[0] - V1[0]) + (V2[0] - V1[0]) * (V0[1] - V2[1]); // Det. de T
-
-                const w2 = 1 - w0 - w1;
-                
-                const wA = mult_scalair(V0, w0);
-                const wB = mult_scalair(V1, w1);
-                const wC = mult_scalair(V2, w2);
-
-                const p = addition( addition(wA, wB), wC);
-                //const p = [px, py]
-
                 // edge detection pour savoir si le pixel est dans le triangle 
-                if (isPointInTriangle([px, py], V0, V1, V2)) //&& p[2] < 0)
+                if (isPointInTriangle([px, py], V0, V1, V2))
                 {
-                    
+                                        
                     drawFunction(px, py, colors[i])
                 }
                 
@@ -84,16 +56,14 @@ export default async function graphics_pipeline(m, colors)
 
 function isPointInTriangle(p, a, b, c)
 {
-    // on teste tous les côtés positifs et négatifs
-    let check = isInside(c,a, p) > 0
-    check &= isInside(a,b, p) > 0
-    check &= isInside(b,c, p) > 0
+    // on teste tous les côtés négatifs uniquement 
+    // [!] (le sens de rotation des vertices est hyper important pour le backface culling)
 
-    let check1 = isInside(c,a, p) < 0
-    check1 &= isInside(a,b, p) < 0
-    check1 &= isInside(b,c, p) < 0
+    let check = isInside(c,a, p) < 0
+    check &= isInside(a,b, p) < 0
+    check &= isInside(b,c, p) < 0
 
-    return check1 | check
+    return check 
 }
 
 function isInside(a, b, p)
