@@ -10,6 +10,7 @@ let i = 45;
 
 async function loop()
 {
+        let t0 = performance.now();
 
         ctx.clearRect(0,0, WIDTH, HEIGHT);
 
@@ -60,9 +61,10 @@ async function loop()
         i += 4;
         i %= 360;
 
+        text_printf("Dernière modification: 16/10/2023 ~14h CEST", 350, -400, "#ffffff", 32);
 
-
-        text_printf("Dernière modification: 15/10/2023 ~23h CEST", 350, -400, "#ffffff", 32);
+        let t1 = performance.now();
+        text_printf(`Temmps d'execution par frame: ${(t1 - t0).toFixed(3)} ms`, 300, -400, "#ffff00", 32);
 
 
 }
