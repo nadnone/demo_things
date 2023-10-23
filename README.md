@@ -1,5 +1,9 @@
 ## Simple compilation of some bit of codes
 ----------------------
+| Aldous-Broder algorithm |
+| ------------------ |
+| [<img height="300" width="300" src="./maze/res/demo.gif">](https://nadnone.github.io/demo_things/maze/) |
+| [Code](./maze/) |
 
 | 3D projection render | Bézier  |
 | -------------------- | ------- |
@@ -19,3 +23,4 @@
 | New Way Rasterizer |
 | ------------------ |
 | [<img height="300" width="300" src="./rasterizer_edge_fn/res/demo.gif">](https://nadnone.github.io/demo_things/rasterizer_edge_fn/) |
+| [Code](./rasterizer_edge_fn/) |
