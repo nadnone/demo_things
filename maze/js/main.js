@@ -86,7 +86,7 @@ function controlled_loop(m, curr_x, curr_y)
         }
         if (py - curr_y !== 0)
         {
-            m[px][py].wallUD = px - curr_x;
+            m[px][py].wallUD = py - curr_y;
         }
 
         // mark as visited
