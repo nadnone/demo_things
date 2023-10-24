@@ -21,11 +21,17 @@ function random_vector()
 {
     let randX = 0, randY = 0;
 
-    const rand_rangeX = Math.floor(Math.random() * 3)
-    const rand_rangeY = Math.floor(Math.random() * 3)
+    const rand_range = Math.floor(Math.random() * 3)
+    const rand_xy = Math.floor(Math.random() * 2);
 
-    randX = 1 - rand_rangeX
-    randY = 1 - rand_rangeY 
+    if (rand_xy > 0)
+    {
+        randX = 1 - rand_range
+    }
+    else
+    {
+        randY = 1 - rand_range 
+    }
 
     return [randX, randY];
 }
