@@ -1,4 +1,4 @@
-import {draw_cell} from "./draw_cell.js";
+import {draw_cell, draw_cursor} from "./draw_cell.js";
 
 function gen_cells(n)
 {
@@ -209,11 +209,12 @@ function gen_maze()
     let data = controlled_loop(matrice, start_x, start_y, stack_path);
 
     
-    while (true) {
-        
+    let debug = setInterval(() => {
+           
         if (stack_path.length === 0 || stack_path.length >= matrice.length**2)
         {   
                 console.log("finish");
+                clearInterval(debug)
                 return;
         }
 
@@ -227,7 +228,11 @@ function gen_maze()
         }
        
         draw_cell(data);
-    }
+        draw_cursor(data)
+
+
+    }, 5);
+     
     
        
 

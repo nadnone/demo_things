@@ -11,7 +11,7 @@ canvas.height = height;
 export default function draw_cell(m) {
     
 
-
+    ctx.clearRect(0,0, width, height)
 
     const SCALE = {
         "x": width / m.length,
@@ -49,5 +49,24 @@ export default function draw_cell(m) {
         }
             
     }
+
+}
+
+export function draw_cursor(data)
+{
+    const m = data.matrice;
+
+
+    const SCALE = {
+        "x": width / m.length,
+        "y": height / m.length
+    }
+
+    // draw the cell
+    ctx.beginPath()
+    ctx.fillStyle = "#ff0000"
+    ctx.fillRect((data.x * SCALE.x), (data.y * SCALE.y), SCALE.x, SCALE.y);
+    ctx.closePath()
+
 
 }
