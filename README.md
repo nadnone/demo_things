@@ -1,9 +1,9 @@
 ## Simple compilation of some bit of codes
 ----------------------
-| Aldous-Broder algorithm |
-| ------------------ |
-| [<img height="300" width="300" src="./maze/res/demo.gif">](https://nadnone.github.io/demo_things/maze/) |
-| [Code](./maze/) |
+| Aldous-Broder algorithm | Depth-First Search algorithm |
+| ------------------ | ------------------ |
+| [<img height="300" width="300" src="./maze/res/demo.gif">](https://nadnone.github.io/demo_things/maze/) | [<img height="300" width="300" src="./maze_depth_first_search/res/demo.gif">](https://nadnone.github.io/demo_things/maze_depth_first_search/) |
+| [Code](./maze/) | [Code](./maze_depth_first_search/) |
 
 | 3D projection render | Bézier  |
 | -------------------- | ------- |

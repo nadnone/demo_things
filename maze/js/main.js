@@ -120,7 +120,7 @@ function controlled_loop(m, curr_x, curr_y)
 
 function gen_maze()
 {
-    const matrice = gen_cells(15); // 
+    const matrice = gen_cells(10); // 
 
     // pick a random cell
     const curr_x = Math.floor(Math.random() * (matrice.length -1))
@@ -130,23 +130,19 @@ function gen_maze()
     
     let data = controlled_loop(matrice, curr_x, curr_y);
 
-    let stopit = setInterval(() => {
-        
-       data = controlled_loop(data.matrice, data.x, data.y);
 
-       if (data.state === "finish")
-       {
+    while (true) {
+        data = controlled_loop(data.matrice, data.x, data.y);
+
+        if (data.state === "finish")
+        {
             console.log("finish");
-            clearInterval(stopit);
-       }
-
-       draw_cell(data.matrice);
-
-    }, 1/60000); // 60 FPS
+            return
+        }
+ 
+        draw_cell(data.matrice);
+    }
     
-
-
-
 
 }
 

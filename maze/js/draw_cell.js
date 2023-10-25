@@ -2,11 +2,21 @@
 let canvas = document.querySelector("canvas")
 let ctx = canvas.getContext("2d");
 
-const WIDTH = 800/2
+let width = document.body.clientWidth
+let height = document.body.clientHeight
+
+canvas.width = width;
+canvas.height = height;
 
 export default function draw_cell(m) {
     
-    const SCALE = WIDTH/m.length*2
+
+
+
+    const SCALE = {
+        "x": width / m.length,
+        "y": height / m.length
+    }
 
 
     for (let i = 0; i < m.length; i++) {
@@ -23,15 +33,15 @@ export default function draw_cell(m) {
 
             // draw the walls
             ctx.beginPath()
-            ctx.fillStyle = cell.visited ? "#ffffff" : "#ffffff"
+            ctx.fillStyle = "#ffffff"
 
             if (cell.wallLR < 2)
             {
-                ctx.fillRect((i * SCALE - SCALE * cell.wallLR), (j * SCALE), SCALE/6, SCALE);
+                ctx.fillRect((i * SCALE.x - SCALE.x * cell.wallLR), (j * SCALE.y), SCALE.x/6, SCALE.y);
             }
             if (cell.wallUD < 2)
             {
-                ctx.fillRect((i * SCALE), (j * SCALE) - SCALE * cell.wallUD, SCALE, SCALE/6);
+                ctx.fillRect((i * SCALE.x), (j * SCALE.y) - SCALE.y * cell.wallUD, SCALE.x, SCALE.y/6);
             }
 
             ctx.closePath()
