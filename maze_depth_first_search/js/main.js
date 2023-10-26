@@ -66,132 +66,118 @@ function check__adjacent_visited(matrice, point)
     return true;
 }
 
-function controlled_loop(m, curr_x, curr_y, stack_path)
+function controlled_loop(data)
 {
     // choose a random wall at thestarting point and carve a passage though
     let [rx, ry] = random_vector(); 
     let random_wall = {
-        "x": rx + curr_x,
-        "y": ry + curr_y
+        "x": rx + data.x,
+        "y": ry + data.y
     }
 
     // cheeck boundaries and randoms 0
-    if (random_wall.x < 0 || random_wall.y < 0 || random_wall.x >= m.length || random_wall.y >= m[0].length || rx+ry === 0)
+    if (random_wall.x < 0 || random_wall.y < 0 || random_wall.x >= data.matrice.length || random_wall.y >= data.matrice[0].length || rx+ry === 0)
     {
-        return {
-            "matrice": m,
-            "x": curr_x,
-            "y": curr_y,
-            "state": "failure bound"
-        };
+        data.state = "failure bound"
+        return data
     }
 
     // only if it isn't visited
-    if (!m[random_wall.x][random_wall.y].visited)
+    if (!data.matrice[random_wall.x][random_wall.y].visited)
     {
 
 
         // on ajoute au stack
-        stack_path.push({"x": random_wall.x, "y": random_wall.y});
+        data.stack_path.push({"x": random_wall.x, "y": random_wall.y});
 
         // check if wall already open
         if (
-            m[random_wall.x][random_wall.y].walls.L > 0 && rx < 0 ||
-            m[random_wall.x][random_wall.y].walls.R > 0 && rx > 0 ||
-            m[random_wall.x][random_wall.y].walls.U > 0 && ry > 0 ||
-            m[random_wall.x][random_wall.y].walls.D > 0 && ry < 0
+            data.matrice[random_wall.x][random_wall.y].walls.L > 0 && rx < 0 ||
+            data.matrice[random_wall.x][random_wall.y].walls.R > 0 && rx > 0 ||
+            data.matrice[random_wall.x][random_wall.y].walls.U > 0 && ry > 0 ||
+            data.matrice[random_wall.x][random_wall.y].walls.D > 0 && ry < 0
             )
         {
-            return {
-                "matrice": m,
-                "x": curr_x,
-                "y": curr_y,
-                "state": "failure check"
-            };
+            data.state = "failure check"
+            return data
         }
 
         // carve a passage though
         if (rx < 0)
         {
-            m[random_wall.x][random_wall.y].walls.L += 1; // 1 = +1; 0 = -1;
+            data.matrice[random_wall.x][random_wall.y].walls.L += 1; // 1 = +1; 0 = -1;
         }
         if (rx > 0)
         {
-            m[random_wall.x][random_wall.y].walls.R += 1; // 1 = +1; 0 = -1;
+            data.matrice[random_wall.x][random_wall.y].walls.R += 1; // 1 = +1; 0 = -1;
         }      
         if (ry < 0)
         {
-            m[random_wall.x][random_wall.y].walls.D += 1; // 1 = +1; 0 = -1;
+            data.matrice[random_wall.x][random_wall.y].walls.D += 1; // 1 = +1; 0 = -1;
         }
         if (ry > 0)
         {
-            m[random_wall.x][random_wall.y].walls.U += 1; // 1 = +1; 0 = -1;
+            data.matrice[random_wall.x][random_wall.y].walls.U += 1; // 1 = +1; 0 = -1;
         }
 
 
-        m[random_wall.x][random_wall.y].visited = true;
+        data.matrice[random_wall.x][random_wall.y].visited = true;
 
-        // si toutes les cellules voisines ont été visités
-        if (check__adjacent_visited(m, random_wall))
+        // si toutes les cellules voisines n'ont pas été visités
+        if (!check__adjacent_visited(data.matrice, random_wall))
         {
-            return {
-                "matrice": m,
-                "x": random_wall.x,
-                "y": random_wall.y,
-                "state": "back"
-            };
+            data.x = random_wall.x
+            data.y = random_wall.y
+            data.state = "active"
+            return data
         }
-        else
-        {
-            return {
-                "matrice": m,
-                "x": random_wall.x,
-                "y": random_wall.y,
-                "state": "active"
-            };
-        }
+       
     }   
 
-    return {
-        "matrice": m,
-        "x": random_wall.x,
-        "y": random_wall.y,
-        "state": "back"
-    };
+    data.x = random_wall.x
+    data.y = random_wall.y
+    data.state = "back"
+    return data
 }
 
 
-function backtrace(data, stack_path)
+function backtrace(data)
 {
     const walls = data.matrice[data.x][data.y].walls;
 
     // check si au moins un mur est fermé
     if (walls.R < 1 || walls.L < 1 || walls.U < 1 || walls.D < 1)
     {
-
-        return {
-            "matrice": data.matrice,
-            "x": data.x,
-            "y": data.y,
-            "state": "active after back"
-        };
-       
+        data.matrice[data.x][data.y].color++
+        data.state = "active after back"
+        data.stack_path = [];
+        return data
     }
     else
     {
         // on retourne en arrière grace au stack
-        let back = stack_path.pop();
-
- 
-        return {
-            "matrice": data.matrice,
-            "x": back.x,
-            "y": back.y,
-            "state": "back"
-        };
-      
+        let back = data.stack_path.pop()
+        data.x = back.x
+        data.y = back.y
+        data.state = "back"
+        return data
     }
 
+}
+
+function check_matrice_visited(data) {
+
+    for (let i = 0; i < data.matrice.length; i++) {
+        for (let j = 0; j < data.matrice.length; j++) {
+            
+            if (!data.matrice[i][j].visited)
+            {
+                return false
+            }
+        }
+    }
+
+    return true
 }
 
 function gen_maze()
@@ -206,29 +192,35 @@ function gen_maze()
     matrice[start_x][start_y].visited = true;
     stack_path.push({"x": start_x, "y": start_y});
 
-    let data = controlled_loop(matrice, start_x, start_y, stack_path);
+    let data = {
+        "x": start_x,
+        "y": start_y,
+        "matrice": matrice,
+        "stack_path": stack_path,
+    };
 
-    
     let debug = setInterval(() => {
            
-        if (stack_path.length === 0 || stack_path.length >= matrice.length**2)
+        if (check_matrice_visited(data))
         {   
                 console.log("finish");
                 clearInterval(debug)
                 return;
         }
 
-        if (data.state === "back" || data.state === "visited")
+        if (data.state === "back" || data.state === "visited" || data.stack_path.length > 5)
         {
-                data = backtrace(data, stack_path)
+                data = backtrace(data)
         }
         else
         {
-                data = controlled_loop(data.matrice, data.x, data.y, stack_path);
+                data = controlled_loop(data);
+                draw_cell(data);
         }
        
-        draw_cell(data);
         draw_cursor(data)
+
+        console.log(data);
 
 
     }, 5);
