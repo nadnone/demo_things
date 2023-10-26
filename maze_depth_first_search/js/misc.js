@@ -70,32 +70,53 @@ function check_adjacent_visited(matrice, point)
     return true;
 }
 
-// on créer un nouveau chemin, du coup on clean le depth pour recommencer
-function new_path(data)
+
+function check_matrice_visited(data)
 {
 
-    const tmp_pos = data.stack[(data.stack.length - Math.floor(data.depth * 1/data.cycle))]
+    for (let i = 0; i < data.matrice.length; i++) {
+        for (let j = 0; j < data.matrice.length; j++) {
+
+            if (!data.matrice[i][j].visited)
+            {
+                return false
+            }
+        }        
+    }
+    return true;
+}
+
+// on créer un nouveau chemin, du coup on clean le depth pour recommencer
+function new_path_recursive(data)
+{
+
+    const tmp_pos = data.stack[(data.stack.length - data.depth - data.cycle)]
     
     if (tmp_pos == null)
     {
-        data.depth = MAX_DEPTH
-        data.state = "failure"
-        data.cycle++
-        return data
+        // si rien trouvé, on continue
+        data.depth = 0
+        data.cycle = 0
+        data.state = "continue"
+        return controlled_recursive_func(data)
     }
 
     if (!check_adjacent_visited(data.matrice, tmp_pos))
     {
         data.x = tmp_pos.x
         data.y = tmp_pos.y
-        data.cycle = 1
+        data.stack = data.stack.slice(0, data.stack.length - data.depth - data.cycle)
+        data.cycle = 0 // on reset les tentatives
         data.depth = 0 // on reset la profondeur du chemin choisi
+        data.state = "back next unvisited"
         return controlled_recursive_func(data)
     }
-
-
-    data.depth = MAX_DEPTH
-    return data
+    else
+    {
+        data.cycle++
+        data.state = "back"
+        return new_path_recursive(data)
+    }
 }
 
 
@@ -103,5 +124,6 @@ export {
     gen_cells,
     random_vector,
     check_adjacent_visited,
-    new_path
+    new_path_recursive,
+    check_matrice_visited
 }

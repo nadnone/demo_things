@@ -45,7 +45,7 @@ export function draw_cell(data) {
 
             // draw the cell
             ctx.beginPath()
-            ctx.fillStyle = cell.visited ? "#000000" : "#b5b5b5"
+            ctx.fillStyle = cell.visited ? "#000000" : "#555555"
             ctx.fillRect((i * SCALE.x), (j * SCALE.y), SCALE.x, SCALE.y);
 
             // draw the walls X
@@ -66,6 +66,11 @@ export function draw_cell(data) {
 
 export function draw_cursor(data)
 {
+    if (data.state == null)
+    {
+        return
+    }
+
     const m = data.matrice;
 
     const SCALE = {
@@ -75,8 +80,10 @@ export function draw_cursor(data)
 
     // draw the cursor
     ctx.beginPath()
-    ctx.fillStyle = "#00ff00"
-    ctx.fillRect((data.x * SCALE.x + SCALE.x/2), (data.y * SCALE.y + SCALE.y/2), SCALE.x/4, SCALE.y/4);
 
+    const color = data.state.includes("failure") ? "#ff0000" : "#00ff00"
+    ctx.fillStyle = data.state.includes("back") ? "#ffffff" : color
+
+    ctx.fillRect((data.x * SCALE.x + SCALE.x/2), (data.y * SCALE.y + SCALE.y/2), SCALE.x/4, SCALE.y/4);
     ctx.closePath()
 }

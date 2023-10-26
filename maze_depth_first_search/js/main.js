@@ -1,6 +1,6 @@
 import { INIT_MATRICE, MAX_DEPTH } from "./constants.js";
 import {draw_cell, draw_cursor, printf, wipe} from "./draw.js";
-import { check_adjacent_visited, gen_cells, new_path, random_vector } from "./misc.js";
+import { check_adjacent_visited, check_matrice_visited, gen_cells, new_path_recursive, random_vector } from "./misc.js";
 
 
 export function controlled_recursive_func(data)
@@ -17,7 +17,7 @@ export function controlled_recursive_func(data)
     // on verifie les limites et les nombres aléatoires
     if (random_wall.x < 0 || random_wall.y < 0 || random_wall.x >= data.matrice.length || random_wall.y >= data.matrice[0].length || rx+ry === 0)
     {
-        data.state = "failure bound"
+        data.state = data.state !== "back next unvisited" ? "failure bound" : data.state
         return data
     }
 
@@ -66,28 +66,30 @@ export function controlled_recursive_func(data)
 
         // on dit qu'on est passé par là
         data.matrice[random_wall.x][random_wall.y].visited = true;
-
-    }   
-
+        data.state = "active"
+    }    
+ 
     data.x = random_wall.x
     data.y = random_wall.y
 
-    // si tout les adjacents n'ont pas été visités
-    if (!check_adjacent_visited(data.matrice, random_wall) && data.depth < MAX_DEPTH)
+    // animation curseur
+    draw_cursor(data)
+
+    // si tout les adjacents n'ont pas été visité + ce n'est pas le résultat du backtrace
+    if (!check_adjacent_visited(data.matrice, random_wall) && data.depth < MAX_DEPTH && data.state === "back next unvisited")
     {
-        data.state = "active"
         return controlled_recursive_func(data);
     }
     else // sinon on créer un nouveau chemin
     {
         data.state = "back"
-        return new_path(data)
+        return new_path_recursive(data)
     }
 
 
 }
 
-let touch = false
+let touch = false // pour le touch-creen
 
 function gen_maze()
 {
@@ -116,21 +118,26 @@ function gen_maze()
         // nettoyage par frame
         wipe();
         
+        // animation
+        draw_cell(data)
+        
         // calcul
         data = controlled_recursive_func(data);
 
-        // animation
-        draw_cell(data)
-        draw_cursor(data)
+        printf("Fail [x]", 100,100, "#ff0000")
+        printf("Active [x]", 100,100 + 48*2, "#00ff00")
+        printf("Backtrace [x]", 100,100 + 48*4, "#ffffff")
 
         // si le chemin est passé partout, alors c'est fini
-        if (data.stack.length >= INIT_MATRICE**2)
+        if (check_matrice_visited(data))
         {   
                 console.log("finish");
+                draw_cell(data)
                 clearInterval(debug)
                 touch = false;
                 return;
         }
+
 
     }, 0);
      
