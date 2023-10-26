@@ -1,3 +1,5 @@
+import { MAX_DEPTH } from "./constants.js";
+import { controlled_recursive_func } from "./main.js";
 
 function gen_cells(n)
 {
@@ -7,14 +9,15 @@ function gen_cells(n)
         let row = [];
         for (let j = 0; j < n; j++) {
             
-            row.push({"walls" : {
-                    "L": 0,
+            const infos = {
+                "walls" : {
                     "R": 0,
-                    "U": 0,
                     "D": 0
                 },
                 "visited": false,
-            });
+            }
+            row.push(infos)
+       
         }
         matrice.push(row);
         
@@ -45,8 +48,10 @@ function random_vector()
 // check si tout les côtés sont visité
 function check_adjacent_visited(matrice, point)
 {
+
     for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
+
             const x = point.x + i;
             const y = point.y + j
 
@@ -65,38 +70,38 @@ function check_adjacent_visited(matrice, point)
     return true;
 }
 
-// on créer un nouveau chemin, du coup on clean le stack pour recommencer
+// on créer un nouveau chemin, du coup on clean le depth pour recommencer
 function new_path(data)
 {
 
-    // check si au moins un mur est fermé
-    data.stack_path = []
-    data.state = "active after back"
-    return data
-
-
-}
-
-// pour verifier si on a visité tout le tableau
-function check_matrice_visited(data) {
-
-    for (let i = 0; i < data.matrice.length; i++) {
-        for (let j = 0; j < data.matrice.length; j++) {
-            
-            if (!data.matrice[i][j].visited)
-            {
-                return false
-            }
-        }
+    const tmp_pos = data.stack[(data.stack.length - Math.floor(data.depth * 1/data.cycle))]
+    
+    if (tmp_pos == null)
+    {
+        data.depth = MAX_DEPTH
+        data.state = "failure"
+        data.cycle++
+        return data
     }
 
-    return true
+    if (!check_adjacent_visited(data.matrice, tmp_pos))
+    {
+        data.x = tmp_pos.x
+        data.y = tmp_pos.y
+        data.cycle = 1
+        data.depth = 0 // on reset la profondeur du chemin choisi
+        return controlled_recursive_func(data)
+    }
+
+
+    data.depth = MAX_DEPTH
+    return data
 }
+
 
 export {
     gen_cells,
     random_vector,
     check_adjacent_visited,
-    new_path,
-    check_matrice_visited
+    new_path
 }

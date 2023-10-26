@@ -1,10 +1,12 @@
 import { INIT_MATRICE, MAX_DEPTH } from "./constants.js";
-import {draw_cell, draw_cursor, printf} from "./draw.js";
-import { check_adjacent_visited, check_matrice_visited, gen_cells, new_path, random_vector } from "./misc.js";
+import {draw_cell, draw_cursor, printf, wipe} from "./draw.js";
+import { check_adjacent_visited, gen_cells, new_path, random_vector } from "./misc.js";
 
 
-function controlled_recursive_func(data)
+export function controlled_recursive_func(data)
 {
+
+
     // on choisi un vector aléatoire pour trouver un voisin
     let [rx, ry] = random_vector(); 
     let random_wall = {
@@ -24,8 +26,10 @@ function controlled_recursive_func(data)
     {
 
 
-        // on ajoute au stack
-        data.stack_path.push({"x": random_wall.x, "y": random_wall.y});
+        // on incrémente la profondeur
+        data.depth++
+        // on push dans le stack
+        data.stack.push({"x": data.x, "y": data.y})
 
         // on verifie si le mur n'est pas déjà ouvert
         if (
@@ -35,6 +39,7 @@ function controlled_recursive_func(data)
             data.matrice[random_wall.x][random_wall.y].walls.D > 0 && ry < 0
             )
         {
+            // si c'est déjà ouvert un inverse
             data.state = "failure check"
             return data
         }
@@ -42,19 +47,20 @@ function controlled_recursive_func(data)
         // on casse le mur
         if (rx < 0)
         {
-            data.matrice[random_wall.x][random_wall.y].walls.L += 1; // 1 = +1; 0 = -1;
+            data.matrice[data.x][data.y].walls.R = 1; // 1 = +1; 0 = -1;
         }
         if (rx > 0)
         {
-            data.matrice[random_wall.x][random_wall.y].walls.R += 1; // 1 = +1; 0 = -1;
+            data.matrice[random_wall.x][random_wall.y].walls.R = 1; // 1 = +1; 0 = -1;
         }      
         if (ry < 0)
         {
-            data.matrice[random_wall.x][random_wall.y].walls.D += 1; // 1 = +1; 0 = -1;
+            data.matrice[data.x][data.y].walls.D = 1; // 1 = +1; 0 = -1;
+
         }
         if (ry > 0)
         {
-            data.matrice[random_wall.x][random_wall.y].walls.U += 1; // 1 = +1; 0 = -1;
+            data.matrice[random_wall.x][random_wall.y].walls.D = 1; // 1 = +1; 0 = -1;
         }
 
 
@@ -67,7 +73,7 @@ function controlled_recursive_func(data)
     data.y = random_wall.y
 
     // si tout les adjacents n'ont pas été visités
-    if (!check_adjacent_visited(data.matrice, random_wall) && data.stack_path.length < MAX_DEPTH)
+    if (!check_adjacent_visited(data.matrice, random_wall) && data.depth < MAX_DEPTH)
     {
         data.state = "active"
         return controlled_recursive_func(data);
@@ -87,26 +93,29 @@ function gen_maze()
 {
     // pour créer une matrice carrée vide de X lignes et colonnes
     const matrice = gen_cells(INIT_MATRICE);
-    let stack_path = [];
 
     // point de départ
     const start_x = 0
     const start_y = 0
     matrice[start_x][start_y].visited = true;
-    stack_path.push({"x": start_x, "y": start_y});
-
+    let stack = [{
+        "x": start_x,
+        "y": start_y
+    }]
     let data = {
         "x": start_x,
         "y": start_y,
         "matrice": matrice,
-        "stack_path": stack_path,
+        "depth": 0,
+        "cycle": 1,
+        "stack": stack
     };
 
     let debug = setInterval(() => {
         
-
-
-
+        // nettoyage par frame
+        wipe();
+        
         // calcul
         data = controlled_recursive_func(data);
 
@@ -114,7 +123,8 @@ function gen_maze()
         draw_cell(data)
         draw_cursor(data)
 
-        if (check_matrice_visited(data))
+        // si le chemin est passé partout, alors c'est fini
+        if (data.stack.length >= INIT_MATRICE**2)
         {   
                 console.log("finish");
                 clearInterval(debug)
@@ -122,11 +132,7 @@ function gen_maze()
                 return;
         }
 
-
-
-
-
-    }, 5);
+    }, 0);
      
     
        
@@ -139,8 +145,11 @@ printf("(or touch the screen)", document.body.clientWidth/2 - 23*12, document.bo
 
 window.addEventListener("keypress", () => 
 {
-    touch = true;
-    gen_maze()
+    if (!touch)
+    {
+        touch = true;
+        gen_maze()
+    }
 });
 
 window.addEventListener("touchstart", () => 
