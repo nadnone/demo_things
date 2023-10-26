@@ -14,16 +14,26 @@ export default function draw_cell(m) {
     ctx.clearRect(0,0, width, height)
 
     const SCALE = {
-        "x": width / m.length,
-        "y": height / m.length
+        "x": width / (m.length + 1),
+        "y": height / (m.length + 1)
     }
 
 
-    for (let i = 0; i < m.length; i++) {
-        for (let j = 0; j < m[i].length; j++) {
+    for (let i = 1; i <= m.length; i++) {
+        for (let j = 1; j <= m.length; j++) {
 
-            const cell = m[i][j];
+            const cell = m[i - 1][j - 1];
 
+            if (i < 1 || i >= m.length || j < 1 || j >= m.length)
+            {
+                // draw the cell
+                ctx.beginPath()
+                ctx.fillStyle = "#000000"
+                ctx.fillRect((i * SCALE.x), (j * SCALE.y), SCALE.x, SCALE.y);
+                ctx.closePath()
+                continue
+
+            }
 
             // draw the cell
             ctx.beginPath()
@@ -65,7 +75,7 @@ export function draw_cursor(data)
     // draw the cell
     ctx.beginPath()
     ctx.fillStyle = "#ff0000"
-    ctx.fillRect((data.x * SCALE.x), (data.y * SCALE.y), SCALE.x, SCALE.y);
+    ctx.fillRect((data.x * SCALE.x + SCALE.x/2), (data.y * SCALE.y + SCALE.y/2), SCALE.x/4, SCALE.y/4);
     ctx.closePath()
 
 

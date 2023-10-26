@@ -88,11 +88,11 @@ function controlled_loop(m, curr_x, curr_y)
         // remove wall
         if (px - curr_x !== 0)
         {
-            m[px][py].wallLR = px - curr_x;
+            m[px][py].wallLR = x;
         }
         if (py - curr_y !== 0)
         {
-            m[px][py].wallUD = py - curr_y;
+            m[px][py].wallUD = y;
         }
 
         // mark as visited

@@ -220,9 +220,6 @@ function gen_maze()
        
         draw_cursor(data)
 
-        console.log(data);
-
-
     }, 5);
      
     
