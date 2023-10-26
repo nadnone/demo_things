@@ -1,88 +1,25 @@
-import {draw_cell, draw_cursor} from "./draw_cell.js";
+import { INIT_MATRICE, MAX_DEPTH } from "./constants.js";
+import {draw_cell, draw_cursor, printf} from "./draw.js";
+import { check_adjacent_visited, check_matrice_visited, gen_cells, new_path, random_vector } from "./misc.js";
 
-function gen_cells(n)
+
+function controlled_recursive_func(data)
 {
-    let matrice = [];
-    for (let i = 0; i < n; i++) {
-        
-        let row = [];
-        for (let j = 0; j < n; j++) {
-            
-            row.push({"walls" : {
-                    "L": 0,
-                    "R": 0,
-                    "U": 0,
-                    "D": 0
-                },
-                "visited": false,
-            });
-        }
-        matrice.push(row);
-        
-    }
-
-    return matrice;
-}
-
-function random_vector()
-{
-    let randX = 0, randY = 0;
-
-    const rand_range = Math.floor(Math.random() * 3)
-    const rand_xy = Math.floor(Math.random() * 2);
-
-    if (rand_xy > 0)
-    {
-        randX = 1 - rand_range
-    }
-    else
-    {
-        randY = 1 - rand_range 
-    }
-
-    return [randX, randY];
-}
-
-// check si tout les côtés sont visité
-function check__adjacent_visited(matrice, point)
-{
-    for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
-            const x = point.x + i;
-            const y = point.y + j
-
-            if (x >= matrice.length || y >= matrice[0].length || x < 0 || y < 0)
-            {
-                continue
-            }
-
-            if (!matrice[x][y].visited)
-            {
-                return false
-            }
-        }        
-    }
-
-    return true;
-}
-
-function controlled_loop(data)
-{
-    // choose a random wall at thestarting point and carve a passage though
+    // on choisi un vector aléatoire pour trouver un voisin
     let [rx, ry] = random_vector(); 
     let random_wall = {
         "x": rx + data.x,
         "y": ry + data.y
     }
 
-    // cheeck boundaries and randoms 0
+    // on verifie les limites et les nombres aléatoires
     if (random_wall.x < 0 || random_wall.y < 0 || random_wall.x >= data.matrice.length || random_wall.y >= data.matrice[0].length || rx+ry === 0)
     {
         data.state = "failure bound"
         return data
     }
 
-    // only if it isn't visited
+    // si pas visité
     if (!data.matrice[random_wall.x][random_wall.y].visited)
     {
 
@@ -90,7 +27,7 @@ function controlled_loop(data)
         // on ajoute au stack
         data.stack_path.push({"x": random_wall.x, "y": random_wall.y});
 
-        // check if wall already open
+        // on verifie si le mur n'est pas déjà ouvert
         if (
             data.matrice[random_wall.x][random_wall.y].walls.L > 0 && rx < 0 ||
             data.matrice[random_wall.x][random_wall.y].walls.R > 0 && rx > 0 ||
@@ -102,7 +39,7 @@ function controlled_loop(data)
             return data
         }
 
-        // carve a passage though
+        // on casse le mur
         if (rx < 0)
         {
             data.matrice[random_wall.x][random_wall.y].walls.L += 1; // 1 = +1; 0 = -1;
@@ -121,72 +58,38 @@ function controlled_loop(data)
         }
 
 
+        // on dit qu'on est passé par là
         data.matrice[random_wall.x][random_wall.y].visited = true;
 
-        // si toutes les cellules voisines n'ont pas été visités
-        if (!check__adjacent_visited(data.matrice, random_wall))
-        {
-            data.x = random_wall.x
-            data.y = random_wall.y
-            data.state = "active"
-            return data
-        }
-       
     }   
 
     data.x = random_wall.x
     data.y = random_wall.y
-    data.state = "back"
-    return data
-}
 
-
-function backtrace(data)
-{
-    const walls = data.matrice[data.x][data.y].walls;
-
-    // check si au moins un mur est fermé
-    if (walls.R < 1 || walls.L < 1 || walls.U < 1 || walls.D < 1)
+    // si tout les adjacents n'ont pas été visités
+    if (!check_adjacent_visited(data.matrice, random_wall) && data.stack_path.length < MAX_DEPTH)
     {
-        data.matrice[data.x][data.y].color++
-        data.state = "active after back"
-        data.stack_path = [];
-        return data
+        data.state = "active"
+        return controlled_recursive_func(data);
     }
-    else
+    else // sinon on créer un nouveau chemin
     {
-        // on retourne en arrière grace au stack
-        let back = data.stack_path.pop()
-        data.x = back.x
-        data.y = back.y
         data.state = "back"
-        return data
+        return new_path(data)
     }
+
 
 }
 
-function check_matrice_visited(data) {
-
-    for (let i = 0; i < data.matrice.length; i++) {
-        for (let j = 0; j < data.matrice.length; j++) {
-            
-            if (!data.matrice[i][j].visited)
-            {
-                return false
-            }
-        }
-    }
-
-    return true
-}
+let touch = false
 
 function gen_maze()
 {
-    const matrice = gen_cells(10); // 
-
+    // pour créer une matrice carrée vide de X lignes et colonnes
+    const matrice = gen_cells(INIT_MATRICE);
     let stack_path = [];
 
-    // pick starting point
+    // point de départ
     const start_x = 0
     const start_y = 0
     matrice[start_x][start_y].visited = true;
@@ -200,25 +103,28 @@ function gen_maze()
     };
 
     let debug = setInterval(() => {
-           
+        
+
+
+
+        // calcul
+        data = controlled_recursive_func(data);
+
+        // animation
+        draw_cell(data)
+        draw_cursor(data)
+
         if (check_matrice_visited(data))
         {   
                 console.log("finish");
                 clearInterval(debug)
+                touch = false;
                 return;
         }
 
-        if (data.state === "back" || data.state === "visited" || data.stack_path.length > 5)
-        {
-                data = backtrace(data)
-        }
-        else
-        {
-                data = controlled_loop(data);
-                draw_cell(data);
-        }
-       
-        draw_cursor(data)
+
+
+
 
     }, 5);
      
@@ -227,4 +133,22 @@ function gen_maze()
 
 }
 
-gen_maze()
+
+printf("Press any key to start", document.body.clientWidth/2 - 23*12, document.body.clientHeight/2);
+printf("(or touch the screen)", document.body.clientWidth/2 - 23*12, document.body.clientHeight/2 + 12*6);
+
+window.addEventListener("keypress", () => 
+{
+    touch = true;
+    gen_maze()
+});
+
+window.addEventListener("touchstart", () => 
+{
+    if (!touch)
+    {
+        touch = true;
+        gen_maze()
+    }
+
+});

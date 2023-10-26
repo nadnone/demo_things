@@ -8,6 +8,13 @@ let height = document.body.clientHeight
 canvas.width = width;
 canvas.height = height;
 
+export function printf(text, x, y)
+{
+    ctx.fillStyle = "#00ff00"
+    ctx.font = "48pt serif"
+    ctx.fillText(text, x, y)
+}
+
 export function draw_cell(data) {
     
     const m = data.matrice;
