@@ -1,4 +1,4 @@
-import { MAX_DEPTH } from "./constants.js";
+import { draw_cursor } from "./draw.js";
 import { controlled_recursive_func } from "./main.js";
 
 function gen_cells(n)
@@ -89,32 +89,31 @@ function check_matrice_visited(data)
 // on créer un nouveau chemin, du coup on clean le depth pour recommencer
 function new_path_recursive(data)
 {
+    // animation curseur
+    draw_cursor(data)
 
-    const tmp_pos = data.stack[(data.stack.length - data.depth - data.cycle)]
+
+    const tmp_pos = data.stack[(data.stack.length - data.cycle - 1)]
     
     if (tmp_pos == null)
     {
-        // si rien trouvé, on continue
-        data.depth = 0
         data.cycle = 0
-        data.state = "continue"
-        return controlled_recursive_func(data)
+        data.state = "failure back"
+        return data
     }
-
-    if (!check_adjacent_visited(data.matrice, tmp_pos))
+    else if (!check_adjacent_visited(data.matrice, tmp_pos))
     {
         data.x = tmp_pos.x
         data.y = tmp_pos.y
-        data.stack = data.stack.slice(0, data.stack.length - data.depth - data.cycle)
         data.cycle = 0 // on reset les tentatives
         data.depth = 0 // on reset la profondeur du chemin choisi
-        data.state = "back next unvisited"
+        data.state = "unvisited"
         return controlled_recursive_func(data)
     }
     else
     {
         data.cycle++
-        data.state = "back"
+        data.state = "back increament"
         return new_path_recursive(data)
     }
 }

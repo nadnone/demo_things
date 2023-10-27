@@ -13,6 +13,7 @@ canvas.style.top = "60px"
 document.body.style.backgroundColor = "#000000"
 
 const WALL_SIZE = width / height * 4
+const fontsize = width/height * 48;
 
 export function wipe()
 {
@@ -22,9 +23,12 @@ export function wipe()
 
 export function printf(text, x, y, color="#00ff00")
 {
+    const _x = x / width 
+    const _y = y
+
     ctx.fillStyle = color
-    ctx.font = "48pt serif"
-    ctx.fillText(text, x, y)
+    ctx.font = `${fontsize}pt serif`
+    ctx.fillText(text, _x, _y)
 }
 
 export function draw_cell(data) {
@@ -81,8 +85,8 @@ export function draw_cursor(data)
     // draw the cursor
     ctx.beginPath()
 
-    const color = data.state.includes("failure") ? "#ff0000" : "#00ff00"
-    ctx.fillStyle = data.state.includes("back") ? "#ffffff" : color
+    const color = data.state.includes("back") ? "#ffffff" : "#00ff00"
+    ctx.fillStyle = data.state.includes("failure") ? "#ff0000" : color
 
     ctx.fillRect((data.x * SCALE.x + SCALE.x/2), (data.y * SCALE.y + SCALE.y/2), SCALE.x/4, SCALE.y/4);
     ctx.closePath()

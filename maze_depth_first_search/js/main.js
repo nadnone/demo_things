@@ -2,10 +2,13 @@ import { INIT_MATRICE, MAX_DEPTH } from "./constants.js";
 import {draw_cell, draw_cursor, printf, wipe} from "./draw.js";
 import { check_adjacent_visited, check_matrice_visited, gen_cells, new_path_recursive, random_vector } from "./misc.js";
 
+let touch = false // pour le touch-creen
 
 export function controlled_recursive_func(data)
 {
 
+    // animation curseur
+    draw_cursor(data)
 
     // on choisi un vector aléatoire pour trouver un voisin
     let [rx, ry] = random_vector(); 
@@ -17,7 +20,7 @@ export function controlled_recursive_func(data)
     // on verifie les limites et les nombres aléatoires
     if (random_wall.x < 0 || random_wall.y < 0 || random_wall.x >= data.matrice.length || random_wall.y >= data.matrice[0].length || rx+ry === 0)
     {
-        data.state = data.state !== "back next unvisited" ? "failure bound" : data.state
+        data.state = !data.state.includes("back") ? "failure bound" : "back failure"
         return data
     }
 
@@ -29,7 +32,7 @@ export function controlled_recursive_func(data)
         // on incrémente la profondeur
         data.depth++
         // on push dans le stack
-        data.stack.push({"x": data.x, "y": data.y})
+        data.stack.push({"x": random_wall.x, "y": random_wall.y})
 
         // on verifie si le mur n'est pas déjà ouvert
         if (
@@ -39,7 +42,6 @@ export function controlled_recursive_func(data)
             data.matrice[random_wall.x][random_wall.y].walls.D > 0 && ry < 0
             )
         {
-            // si c'est déjà ouvert un inverse
             data.state = "failure check"
             return data
         }
@@ -72,24 +74,19 @@ export function controlled_recursive_func(data)
     data.x = random_wall.x
     data.y = random_wall.y
 
-    // animation curseur
-    draw_cursor(data)
-
     // si tout les adjacents n'ont pas été visité + ce n'est pas le résultat du backtrace
-    if (!check_adjacent_visited(data.matrice, random_wall) && data.depth < MAX_DEPTH && data.state === "back next unvisited")
+    if (!check_adjacent_visited(data.matrice, random_wall) && data.depth < MAX_DEPTH && !data.state.includes("back"))
     {
         return controlled_recursive_func(data);
     }
     else // sinon on créer un nouveau chemin
     {
-        data.state = "back"
         return new_path_recursive(data)
     }
 
 
 }
 
-let touch = false // pour le touch-creen
 
 function gen_maze()
 {
@@ -109,8 +106,9 @@ function gen_maze()
         "y": start_y,
         "matrice": matrice,
         "depth": 0,
-        "cycle": 1,
-        "stack": stack
+        "cycle": 0,
+        "stack": stack,
+        "state": "start"
     };
 
     let debug = setInterval(() => {
@@ -120,16 +118,16 @@ function gen_maze()
         
         // animation
         draw_cell(data)
-        
+
         // calcul
         data = controlled_recursive_func(data);
 
-        printf("Fail [x]", 100,100, "#ff0000")
-        printf("Active [x]", 100,100 + 48*2, "#00ff00")
-        printf("Backtrace [x]", 100,100 + 48*4, "#ffffff")
+        printf("Fail [x]", 100, 100, "#ff0000")
+        printf("Active [x]", 100, 200, "#00ff00")
+        printf("Backtrace [x]", 100, 300, "#ffffff")
 
         // si le chemin est passé partout, alors c'est fini
-        if (check_matrice_visited(data))
+        if (data.stack.length >= INIT_MATRICE**2)
         {   
                 console.log("finish");
                 draw_cell(data)
@@ -139,7 +137,7 @@ function gen_maze()
         }
 
 
-    }, 0);
+    }, 25);
      
     
        
@@ -147,8 +145,8 @@ function gen_maze()
 }
 
 
-printf("Press any key to start", document.body.clientWidth/2 - 23*12, document.body.clientHeight/2);
-printf("(or touch the screen)", document.body.clientWidth/2 - 23*12, document.body.clientHeight/2 + 12*6);
+printf("Press any key to start", document.body.clientWidth/2 - 400, document.body.clientHeight/2);
+printf("(or touch the screen)", document.body.clientWidth/2 - 400, document.body.clientHeight/2 + 12*6);
 
 window.addEventListener("keypress", () => 
 {
