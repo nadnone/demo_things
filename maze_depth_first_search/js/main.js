@@ -1,4 +1,4 @@
-import { INIT_MATRICE, MAX_DEPTH } from "./constants.js";
+import { INIT_MATRICE, MAX_DEPTH, STATES } from "./constants.js";
 import {draw_cell, draw_cursor, printf, wipe} from "./draw.js";
 import { check_adjacent_visited, check_matrice_visited, gen_cells, new_path_recursive, random_vector } from "./misc.js";
 
@@ -20,7 +20,7 @@ export function controlled_recursive_func(data)
     // on verifie les limites et les nombres aléatoires
     if (random_wall.x < 0 || random_wall.y < 0 || random_wall.x >= data.matrice.length || random_wall.y >= data.matrice[0].length || rx+ry === 0)
     {
-        data.state = !data.state.includes("back") ? "failure bound" : "back failure"
+        data.state = STATES.FAILURE
         return data
     }
 
@@ -42,7 +42,7 @@ export function controlled_recursive_func(data)
             data.matrice[random_wall.x][random_wall.y].walls.D > 0 && ry < 0
             )
         {
-            data.state = "failure check"
+            data.state = STATES.FAILURE
             return data
         }
 
@@ -68,14 +68,14 @@ export function controlled_recursive_func(data)
 
         // on dit qu'on est passé par là
         data.matrice[random_wall.x][random_wall.y].visited = true;
-        data.state = "active"
+        data.state = STATES.ACTIVE
     }    
  
     data.x = random_wall.x
     data.y = random_wall.y
 
     // si tout les adjacents n'ont pas été visité + ce n'est pas le résultat du backtrace
-    if (!check_adjacent_visited(data.matrice, random_wall) && data.depth < MAX_DEPTH && !data.state.includes("back"))
+    if (!check_adjacent_visited(data.matrice, random_wall) && data.depth < MAX_DEPTH && data.stack !== STATES.BACK)
     {
         return controlled_recursive_func(data);
     }
@@ -96,11 +96,14 @@ function gen_maze()
     // point de départ
     const start_x = 0
     const start_y = 0
+    
     matrice[start_x][start_y].visited = true;
+
     let stack = [{
         "x": start_x,
         "y": start_y
     }]
+
     let data = {
         "x": start_x,
         "y": start_y,
@@ -108,7 +111,7 @@ function gen_maze()
         "depth": 0,
         "cycle": 0,
         "stack": stack,
-        "state": "start"
+        "state": STATES.ACTIVE
     };
 
     let debug = setInterval(() => {
@@ -145,8 +148,8 @@ function gen_maze()
 }
 
 
-printf("Press any key to start", document.body.clientWidth/2 - 400, document.body.clientHeight/2);
-printf("(or touch the screen)", document.body.clientWidth/2 - 400, document.body.clientHeight/2 + 12*6);
+printf("Press any key to start", document.body.clientWidth/2 - 400, document.body.clientHeight/2 - 150);
+printf("(or touch the screen)", document.body.clientWidth/2 - 400, document.body.clientHeight/2 );
 
 window.addEventListener("keypress", () => 
 {

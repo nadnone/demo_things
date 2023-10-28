@@ -1,3 +1,4 @@
+import { STATES } from "./constants.js";
 import { draw_cursor } from "./draw.js";
 import { controlled_recursive_func } from "./main.js";
 
@@ -97,23 +98,25 @@ function new_path_recursive(data)
     
     if (tmp_pos == null)
     {
+        // si erreur, on recommence
         data.cycle = 0
-        data.state = "failure back"
+        data.state = STATES.BACK
         return data
     }
     else if (!check_adjacent_visited(data.matrice, tmp_pos))
     {
+        // position trouvée, on recontinue à creuser
         data.x = tmp_pos.x
         data.y = tmp_pos.y
         data.cycle = 0 // on reset les tentatives
         data.depth = 0 // on reset la profondeur du chemin choisi
-        data.state = "unvisited"
+        data.state = STATES.ACTIVE
         return controlled_recursive_func(data)
     }
     else
     {
+        // on continue de backtrace
         data.cycle++
-        data.state = "back increament"
         return new_path_recursive(data)
     }
 }
