@@ -2,7 +2,7 @@
 
 - [Clic here to see the cube](https://nadnone.github.io/demo_things/3D_test/)
 
-## Be carefull, after 100 ms, your host could lag
+## Be carefull, after 100 ms, your client could lag
 
 | Hosts                                          | Max frame time  | Browser    |
 |------------------------------------------------|-----------------|------------|
