@@ -1,5 +1,4 @@
 import drawFunction from "./drawFunction.js";
-import { angle_vector, produit_vectoriel, soustraction } from "./vectors_maths.js";
 
 export default async function graphics_pipeline(m, colors) 
 {
@@ -21,15 +20,6 @@ export default async function graphics_pipeline(m, colors)
         const max_y = Math.max(V0[1], V1[1], V2[1]);
 
 
-
-        // Pixel backface culling
-        // https://hackmd.io/@HueyNemud/rkAa0jYFw
-        const normale = produit_vectoriel(soustraction(V0, V1), soustraction(V0, V2));
-        const vec_cam = soustraction([0,0, -400], V0); // position caméra - pixel (from - to)
-        const angle = angle_vector(normale, vec_cam); // angle entre la caméra et la sub-face
-
-        // calcul de l'angle pour savoir si la face doit être affiché
-        if (angle >= Math.PI/2) continue;
 
         // couleur de la face
         const indexcolor = parseInt(i / 6);
