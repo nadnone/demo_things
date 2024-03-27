@@ -61,7 +61,7 @@ async function loop()
         i += 4;
         i %= 360;
 
-        text_printf("Dernière modification: 19/01/2024 ~20h CEST", 350, -400, "#ffffff", 32);
+        text_printf("Dernière modification: 27/03/2024 ~12h CEST", 350, -400, "#ffffff", 32);
 
         let t1 = performance.now();
         text_printf(`Temps d'execution par frame: ${(t1 - t0).toFixed(3)} ms`, 300, -400, "#ffff00", 32);

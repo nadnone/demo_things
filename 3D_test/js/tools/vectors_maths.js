@@ -4,11 +4,6 @@ function norme(a) {
     return Math.sqrt( a[0]**2 + a[1]**2 + a[2]**2 )
 }
 
-function norme_2d(a) {
-    
-    return Math.sqrt( a[0]**2 + a[1]**2 )
-}
-
 function normaliser(a)
 {
     return mult_scalair(a, 1/norme(a));
@@ -36,6 +31,15 @@ function angle_vector(a, b)
     return produit_scalair(a, b) / (norme(a) * norme(b))
 }
 
+function produit_vectoriel_2d(a, b)
+{
+    let v = [];
+
+    v[0] = (a[1] * b[0]) - (a[0] * b[1])
+    v[1] = (a[0] * b[1]) - (a[1] * b[0])
+
+    return v;
+}
 
 function produit_vectoriel(a, b)
 {
@@ -167,5 +171,5 @@ export { multiply,
         produit_vectoriel, 
         norme, 
         angle_vector,
-        norme_2d,
+        produit_vectoriel_2d,
     }

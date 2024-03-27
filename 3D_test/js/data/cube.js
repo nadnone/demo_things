@@ -56,6 +56,7 @@ const cube = [
 
 /*
     All cubes vertices
+    (Se référer au schéma dans /res/plan vertices.jpeg)
 
     [-100, 100, -100],  // p1
     [100, 100, -100],   // p2
