@@ -8,11 +8,17 @@ import { text_printf } from './tools/drawFunction.js';
 
 let i = 45;
 
+let bg_image = new Image();
+bg_image.src = "./img/img.jpg";
+
 async function loop()
 {
         let t0 = performance.now();
 
         ctx.clearRect(0,0, WIDTH, HEIGHT);
+        ctx.drawImage(bg_image, -700, 0);
+
+
 
         // rotation
     
@@ -61,7 +67,7 @@ async function loop()
         i += 4;
         i %= 360;
 
-        text_printf("Dernière modification: 27/03/2024 ~12h CEST", 350, -400, "#ffffff", 32);
+        text_printf("Dernière modification: 01/04/2024 ~14h CEST", 350, -400, "#000000", 32);
 
         let t1 = performance.now();
         text_printf(`Temps d'execution par frame: ${(t1 - t0).toFixed(3)} ms`, 300, -400, "#ffff00", 32);
@@ -85,4 +91,11 @@ function kernel_get(cursor, matrice)
 
 
 //loop()
-setInterval(loop, 100);
+
+bg_image.addEventListener("load", () => {
+
+
+    setInterval(loop, 100);
+});
+
+
