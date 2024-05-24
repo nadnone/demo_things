@@ -1,5 +1,6 @@
 ## Simple compilation of some bit of codes
 ----------------------
+
 | Aldous-Broder algorithm | Depth-First Search algorithm |
 | ------------------ | ------------------ |
 | [<img height="300" width="300" src="./maze/res/demo.gif">](https://nadnone.github.io/demo_things/maze/) | [<img height="300" width="300" src="./maze_depth_first_search/res/demo.gif">](https://nadnone.github.io/demo_things/maze_depth_first_search/) |
@@ -24,3 +25,5 @@
 | ------------------ |
 | [<img height="300" width="300" src="./rasterizer_edge_fn/res/demo.gif">](https://nadnone.github.io/demo_things/rasterizer_edge_fn/) |
 | [Code](./rasterizer_edge_fn/) |
+| [Sketche 1](./ressources/rasterizer_new_way/1.jpg) | 
+| [Sketche 2](./ressources/rasterizer_new_way/2.jpg) | 
