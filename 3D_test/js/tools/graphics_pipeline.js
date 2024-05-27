@@ -1,4 +1,5 @@
 import drawFunction from "./drawFunction.js";
+import { produit_vectoriel, soustraction_2d } from "./vectors_maths.js";
 
 export default async function graphics_pipeline(m, colors) 
 {
@@ -53,16 +54,14 @@ function isPointInTriangle(p, a, b, c)
     // [!] (le sens de rotation des vertices est hyper important pour le backface culling)
 
     /*
-        Si le produit vectoriel du pixel en chaque coin du triangle est strictement négatif, on l'imprime.
+        Si le produit vectoriel du pixel en chaque bord du triangle est strictement négatif, on l'imprime.
         Dans le cas contraire on ignore l'impression, car il s'agit d'une face arrière.
         Dans le cas ou il n'est pas entièrement négatif ou positif, le pixel est hors du triangle, on l'ignore aussi
-        L'ordre des vertices est dit clockwise
-
     */
     
-    let check = isInside(c,a, p) < 0
-    check &= isInside(a,b, p) < 0
-    check &= isInside(b,c, p) < 0
+    let check = isInside(c,a, p)
+    check &= isInside(a,b, p)
+    check &= isInside(b,c, p)
 
     return check 
 }
@@ -71,19 +70,12 @@ function isInside(a, b, p)
 {
 
     /*
-        Calcul de du produit vectoriel entre les deux vecteurs AP et BP
-
-        Equivaut à faire:
-            let ap = soustraction_2d(a, p);
-            let bp = soustraction_2d(b, p);
-            return produit_vectoriel_2d(ap,bp)[1]; 
+        Calcul du produit vectoriel entre les deux vecteurs AP et BP
     */
 
-    return (a[0] - p[0]) * (b[1] - p[1]) - (a[1] - p[1]) * (b[0] - p[0])
+    let ap = soustraction_2d(a, p);
+    let bp = soustraction_2d(b, p);
 
-    // solution ici
-    // https://youtu.be/kkucCUlyIUE
-    // https://blackpawn.com/texts/pointinpoly/default.html
-    // https://fgiesen.wordpress.com/2013/02/08/triangle-rasterization-in-practice/
+    return produit_vectoriel(ap, bp) < 0
 
 }
