@@ -6,6 +6,11 @@
 ### Demo
 - [Clic here to see the cube](https://nadnone.github.io/demo_things/3D_test/)
 
+### Sketches
+- [sketche1](./res/schems1.jpg)
+
+- [sketche2](./res/schems2.jpg)
+
 ## Be carefull, after 100 ms, your client could lag
 
 | Hosts                                          | Max frame time  | Browser    |
@@ -30,3 +35,4 @@
 | Samsung Galaxy s10                             | ~300 ms         | Firefox    |
 | Samsung Galaxy A31s                            | ~400 ms         | Chrome     |
 | Samsung Galaxy A31s                            | ~650 ms         | Firefox    |
+

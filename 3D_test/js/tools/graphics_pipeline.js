@@ -71,6 +71,9 @@ function isInside(a, b, p)
 
     /*
         Calcul du produit vectoriel entre les deux vecteurs AP et BP
+
+        plus d'explications dans /res/schems1.jpg et /res/schems2.jpg
+        (Si cette fonction est vrai pour chaque paire de vecteurs qui forment le triangle, alors le pixel est dans le triangle)
     */
 
     let ap = soustraction_2d(a, p);
